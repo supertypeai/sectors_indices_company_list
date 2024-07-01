@@ -1,71 +1,71 @@
-symbol
-ACES.JK
-ADMR.JK
-ADRO.JK
-AKRA.JK
-AMMN.JK
-ANTM.JK
-ASII.JK
-AUTO.JK
-AVIA.JK
-BDKR.JK
-BMTR.JK
-BRIS.JK
-BRMS.JK
-BRPT.JK
-BSDE.JK
-BTPS.JK
-CPIN.JK
-CTRA.JK
-DSNG.JK
-ELSA.JK
-EMTK.JK
-ERAA.JK
-ESSA.JK
-EXCL.JK
-FILM.JK
-GJTL.JK
-GOTO.JK
-HEAL.JK
-HRUM.JK
-ICBP.JK
-INCO.JK
-INDF.JK
-INDY.JK
-INKP.JK
-INTP.JK
-ISAT.JK
-ITMG.JK
-JPFA.JK
-KLBF.JK
-MAHA.JK
-MAPA.JK
-MAPI.JK
-MBMA.JK
-MDKA.JK
-MEDC.JK
-MIDI.JK
-MIKA.JK
-MNCN.JK
-MPMX.JK
-MTEL.JK
-MYOR.JK
-PANI.JK
-PGAS.JK
-PGEO.JK
-PTBA.JK
-PTMP.JK
-PWON.JK
-SCMA.JK
-SIDO.JK
-SMGR.JK
-SMIL.JK
-SMRA.JK
-SRTG.JK
-TINS.JK
-TKIM.JK
-TLKM.JK
-TPIA.JK
-UNTR.JK
-UNVR.JK
-WIFI.JK
+symbol,company_name
+ACES.JK,Ace Hardware Indonesia Tbk
+ADMR.JK,PT Adaro Minerals Indonesia Tbk
+ADRO.JK,Adaro Energy Indonesia Tbk
+AKRA.JK,PT AKR Corporindo Tbk.
+AMMN.JK,PT Amman Mineral Internasional Tbk.
+ANTM.JK,Aneka Tambang Tbk.
+ASII.JK,Astra International Tbk
+AUTO.JK,Astra Otoparts Tbk
+AVIA.JK,PT Avia Avian Tbk
+BDKR.JK,PT Berdikari Pondasi Perkasa Tbk.
+BMTR.JK,PT Global Mediacom Tbk
+BRIS.JK,PT Bank Syariah Indonesia Tbk
+BRMS.JK,Bumi Resources Minerals Tbk
+BRPT.JK,Barito Pacific Tbk
+BSDE.JK,PT Bumi Serpong Damai Tbk
+BTPS.JK,PT Bank BTPN Syariah Tbk.
+CPIN.JK,Charoen Pokphand Indonesia Tbk
+CTRA.JK,Ciputra Development Tbk
+DSNG.JK,PT Dharma Satya Nusantara Tbk.
+ELSA.JK,Elnusa Tbk
+EMTK.JK,Elang Mahkota Teknologi Tbk
+ERAA.JK,Erajaya Swasembada Tbk
+ESSA.JK,ESSA Industries Indonesia Tbk
+EXCL.JK,PT XL Axiata Tbk
+FILM.JK,PT MD Pictures Tbk.
+GJTL.JK,Gajah Tunggal Tbk
+GOTO.JK,PT GoTo Gojek Tokopedia Tbk
+HEAL.JK,PT Medikaloka Hermina Tbk.
+HRUM.JK,Harum Energy Tbk
+ICBP.JK,Indofood CBP Sukses Makmur Tbk
+INCO.JK,Vale Indonesia Tbk
+INDF.JK,Indofood Sukses Makmur Tbk
+INDY.JK,Indika Energy Tbk
+INKP.JK,Indah Kiat Pulp & Paper Tbk
+INTP.JK,Indocement Tunggal Prakarsa Tbk
+ISAT.JK,PT Indosat Tbk
+ITMG.JK,Indo Tambangraya Megah Tbk
+JPFA.JK,JAPFA Comfeed Indonesia Tbk
+KLBF.JK,Kalbe Farma Tbk
+MAHA.JK,PT Mandiri Herindo Adiperkasa Tbk
+MAPA.JK,PT MAP Aktif Adiperkasa Tbk.
+MAPI.JK,Mitra Adiperkasa Tbk
+MBMA.JK,PT Merdeka Battery Materials Tbk
+MDKA.JK,PT Merdeka Copper Gold Tbk.
+MEDC.JK,PT Medco Energi Internasional Tbk
+MIDI.JK,Midi Utama Indonesia Tbk
+MIKA.JK,PT Mitra Keluarga Karyasehat Tbk.
+MNCN.JK,Media Nusantara Citra Tbk
+MPMX.JK,PT Mitra Pinasthika Mustika Tbk.
+MTEL.JK,PT Dayamitra Telekomunikasi Tbk
+MYOR.JK,Mayora Indah Tbk
+PANI.JK,PT Pantai Indah Kapuk Dua Tbk.
+PGAS.JK,PT Perusahaan Gas Negara Tbk.
+PGEO.JK,PT Pertamina Geothermal Energy Tbk
+PTBA.JK,Bukit Asam Tbk
+PTMP.JK,PT Mitra Pack Tbk.
+PWON.JK,Pakuwon Jati Tbk
+SCMA.JK,Surya Citra Media Tbk
+SIDO.JK,PT Industri Jamu Dan Farmasi Sido Muncul Tbk
+SMGR.JK,Semen Indonesia (Persero) Tbk
+SMIL.JK,PT Sarana Mitra Luas Tbk
+SMRA.JK,PT Summarecon Agung Tbk
+SRTG.JK,PT Saratoga Investama Sedaya Tbk.
+TINS.JK,PT Timah Tbk.
+TKIM.JK,Pabrik Kertas Tjiwi Kimia Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+TPIA.JK,PT Chandra Asri Petrochemical Tbk
+UNTR.JK,United Tractors Tbk
+UNVR.JK,Unilever Indonesia Tbk
+WIFI.JK,PT Solusi Sinergi Digital Tbk

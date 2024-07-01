@@ -1,31 +1,31 @@
-symbol
-ACES.JK
-ADMR.JK
-ADRO.JK
-AKRA.JK
-AMRT.JK
-ASII.JK
-BBCA.JK
-BBRI.JK
-BFIN.JK
-BMRI.JK
-BTPS.JK
-CPIN.JK
-GGRM.JK
-HRUM.JK
-INCO.JK
-INTP.JK
-ITMG.JK
-KLBF.JK
-MIKA.JK
-MNCN.JK
-MYOR.JK
-PTBA.JK
-SCMA.JK
-SIDO.JK
-SMIL.JK
-TKIM.JK
-TLKM.JK
-TRON.JK
-UNTR.JK
-UNVR.JK
+symbol,company_name
+ACES.JK,Ace Hardware Indonesia Tbk
+ADMR.JK,PT Adaro Minerals Indonesia Tbk
+ADRO.JK,Adaro Energy Indonesia Tbk
+AKRA.JK,PT AKR Corporindo Tbk.
+AMRT.JK,PT Sumber Alfaria Trijaya Tbk.
+ASII.JK,Astra International Tbk
+BBCA.JK,PT Bank Central Asia Tbk.
+BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
+BFIN.JK,BFI Finance Indonesia Tbk
+BMRI.JK,PT Bank Mandiri (Persero) Tbk
+BTPS.JK,PT Bank BTPN Syariah Tbk.
+CPIN.JK,Charoen Pokphand Indonesia Tbk
+GGRM.JK,Gudang Garam Tbk
+HRUM.JK,Harum Energy Tbk
+INCO.JK,Vale Indonesia Tbk
+INTP.JK,Indocement Tunggal Prakarsa Tbk
+ITMG.JK,Indo Tambangraya Megah Tbk
+KLBF.JK,Kalbe Farma Tbk
+MIKA.JK,PT Mitra Keluarga Karyasehat Tbk.
+MNCN.JK,Media Nusantara Citra Tbk
+MYOR.JK,Mayora Indah Tbk
+PTBA.JK,Bukit Asam Tbk
+SCMA.JK,Surya Citra Media Tbk
+SIDO.JK,PT Industri Jamu Dan Farmasi Sido Muncul Tbk
+SMIL.JK,PT Sarana Mitra Luas Tbk
+TKIM.JK,Pabrik Kertas Tjiwi Kimia Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+TRON.JK,PT Teknologi Karya Digital Nusa Tbk.
+UNTR.JK,United Tractors Tbk
+UNVR.JK,Unilever Indonesia Tbk

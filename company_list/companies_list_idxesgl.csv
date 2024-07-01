@@ -1,31 +1,31 @@
-symbol
-ACES.JK
-AKRA.JK
-ASSA.JK
-AUTO.JK
-BBCA.JK
-BBNI.JK
-BBRI.JK
-BFIN.JK
-BMRI.JK
-BMTR.JK
-BRPT.JK
-BSDE.JK
-CTRA.JK
-EMTK.JK
-ERAA.JK
-GOTO.JK
-JSMR.JK
-MAPI.JK
-MIKA.JK
-MNCN.JK
-MPMX.JK
-PGEO.JK
-PWON.JK
-SCMA.JK
-SIDO.JK
-TBIG.JK
-TLKM.JK
-TOWR.JK
-TPIA.JK
-UNVR.JK
+symbol,company_name
+ACES.JK,Ace Hardware Indonesia Tbk
+AKRA.JK,PT AKR Corporindo Tbk.
+ASSA.JK,Adi Sarana Armada Tbk
+AUTO.JK,Astra Otoparts Tbk
+BBCA.JK,PT Bank Central Asia Tbk.
+BBNI.JK,PT Bank Negara Indonesia (Persero) Tbk
+BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
+BFIN.JK,BFI Finance Indonesia Tbk
+BMRI.JK,PT Bank Mandiri (Persero) Tbk
+BMTR.JK,PT Global Mediacom Tbk
+BRPT.JK,Barito Pacific Tbk
+BSDE.JK,PT Bumi Serpong Damai Tbk
+CTRA.JK,Ciputra Development Tbk
+EMTK.JK,Elang Mahkota Teknologi Tbk
+ERAA.JK,Erajaya Swasembada Tbk
+GOTO.JK,PT GoTo Gojek Tokopedia Tbk
+JSMR.JK,PT Jasa Marga Tbk
+MAPI.JK,Mitra Adiperkasa Tbk
+MIKA.JK,PT Mitra Keluarga Karyasehat Tbk.
+MNCN.JK,Media Nusantara Citra Tbk
+MPMX.JK,PT Mitra Pinasthika Mustika Tbk.
+PGEO.JK,PT Pertamina Geothermal Energy Tbk
+PWON.JK,Pakuwon Jati Tbk
+SCMA.JK,Surya Citra Media Tbk
+SIDO.JK,PT Industri Jamu Dan Farmasi Sido Muncul Tbk
+TBIG.JK,PT Tower Bersama Infrastructure Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+TOWR.JK,Sarana Menara Nusantara Tbk
+TPIA.JK,PT Chandra Asri Petrochemical Tbk
+UNVR.JK,Unilever Indonesia Tbk

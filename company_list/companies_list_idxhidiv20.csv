@@ -1,21 +1,21 @@
-symbol
-ADRO.JK
-AMRT.JK
-ANTM.JK
-ASII.JK
-BBCA.JK
-BBNI.JK
-BBRI.JK
-BMRI.JK
-BRPT.JK
-ICBP.JK
-INDF.JK
-INKP.JK
-ITMG.JK
-KLBF.JK
-PTBA.JK
-SMGR.JK
-TLKM.JK
-TPIA.JK
-UNTR.JK
-UNVR.JK
+symbol,company_name
+ADRO.JK,Adaro Energy Indonesia Tbk
+AMRT.JK,PT Sumber Alfaria Trijaya Tbk.
+ANTM.JK,Aneka Tambang Tbk.
+ASII.JK,Astra International Tbk
+BBCA.JK,PT Bank Central Asia Tbk.
+BBNI.JK,PT Bank Negara Indonesia (Persero) Tbk
+BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
+BMRI.JK,PT Bank Mandiri (Persero) Tbk
+BRPT.JK,Barito Pacific Tbk
+ICBP.JK,Indofood CBP Sukses Makmur Tbk
+INDF.JK,Indofood Sukses Makmur Tbk
+INKP.JK,Indah Kiat Pulp & Paper Tbk
+ITMG.JK,Indo Tambangraya Megah Tbk
+KLBF.JK,Kalbe Farma Tbk
+PTBA.JK,Bukit Asam Tbk
+SMGR.JK,Semen Indonesia (Persero) Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+TPIA.JK,PT Chandra Asri Petrochemical Tbk
+UNTR.JK,United Tractors Tbk
+UNVR.JK,Unilever Indonesia Tbk

@@ -1,43 +1,43 @@
-symbol,company
-ADRO.JK,Adaro Energy
-AMMN.JK,Amman Mineral Internasional
-AALI.JK,Astra Agro Lestari
-ASII.JK,Astra International
-AVIA.JK,Avia Avian
-BBCA.JK,Bank Central Asia
-BDMN.JK,Bank Danamon Indonesia
-BMRI.JK,Bank Mandiri
-BBNI.JK,Bank Negara Indonesia
-BBRI.JK,Bank Rakyat Indonesia
-BRIS.JK,Bank Syariah Indonesia
-BRPT.JK,Barito Pacific
-BSDE.JK,Bumi Serpong Damai
-CPIN.JK,Charoen Pokphand Indonesia
-MTEL.JK,Dayamitra Telekomunikasi
-EMTK.JK,Elang Mahkota Teknologi
-GOTO.JK,GoTo Gojek Indonesia
-GGRM.JK,Gudang Garam
-INKP.JK,Indah Kiat Pulp & Paper
-INTP.JK,Indocement Tunggal Prakarsa
-INDF.JK,Indofood Sukses Makmur
-ISAT.JK,Indosat
-JSMR.JK,Jasa Marga
-KLBF.JK,Kalbe Farma
-MYOR.JK,Mayora Indah
-MDKA.JK,Merdeka Copper Gold
-PGAS.JK,Perusahaan Gas Negara
-CUAN.JK,Petrindo Jaya Kreasi
-HMSP.JK,Hanjaya Mandala Sampoerna
-ICBP.JK,Indofood CBP Sukses Makmur
-TOWR.JK,Sarana Menara Nusantara
-SMGR.JK,Semen Gresik
-FREN.JK,Smartfren Telecom
-AMRT.JK,Sumber Alfaria Trijaya
-PTBA.JK,Tambang Batubara Bukit Asam
-TLKM.JK,Telekomunikasi Indonesia
-TBIG.JK,Tower Bersama Infrastructure
-NCKL.JK,Trimegah Bangun Persada
-UNVR.JK,Unilever Indonesia
-UNTR.JK,United Tractors
-INCO.JK,Vale Indonesia
-EXCL.JK,XL Axiata
+symbol,company_name
+ADRO.JK,Adaro Energy Indonesia Tbk
+AMMN.JK,PT Amman Mineral Internasional Tbk.
+AALI.JK,Astra Agro Lestari Tbk
+ASII.JK,Astra International Tbk
+AVIA.JK,PT Avia Avian Tbk
+BBCA.JK,PT Bank Central Asia Tbk.
+BDMN.JK,PT Bank Danamon Indonesia Tbk
+BMRI.JK,PT Bank Mandiri (Persero) Tbk
+BBNI.JK,PT Bank Negara Indonesia (Persero) Tbk
+BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
+BRIS.JK,PT Bank Syariah Indonesia Tbk
+BRPT.JK,Barito Pacific Tbk
+BSDE.JK,PT Bumi Serpong Damai Tbk
+CPIN.JK,Charoen Pokphand Indonesia Tbk
+MTEL.JK,PT Dayamitra Telekomunikasi Tbk
+EMTK.JK,Elang Mahkota Teknologi Tbk
+GOTO.JK,PT GoTo Gojek Tokopedia Tbk
+GGRM.JK,Gudang Garam Tbk
+INKP.JK,Indah Kiat Pulp & Paper Tbk
+INTP.JK,Indocement Tunggal Prakarsa Tbk
+INDF.JK,Indofood Sukses Makmur Tbk
+ISAT.JK,PT Indosat Tbk
+JSMR.JK,PT Jasa Marga Tbk
+KLBF.JK,Kalbe Farma Tbk
+MYOR.JK,Mayora Indah Tbk
+MDKA.JK,PT Merdeka Copper Gold Tbk.
+PGAS.JK,PT Perusahaan Gas Negara Tbk.
+CUAN.JK,PT Petrindo Jaya Kreasi Tbk
+HMSP.JK,HM Sampoerna Tbk
+ICBP.JK,Indofood CBP Sukses Makmur Tbk
+TOWR.JK,Sarana Menara Nusantara Tbk
+SMGR.JK,Semen Indonesia (Persero) Tbk
+FREN.JK,PT Smartfren Telecom Tbk
+AMRT.JK,PT Sumber Alfaria Trijaya Tbk.
+PTBA.JK,Bukit Asam Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+TBIG.JK,PT Tower Bersama Infrastructure Tbk
+NCKL.JK,PT Trimegah Bangun Persada Tbk.
+UNVR.JK,Unilever Indonesia Tbk
+UNTR.JK,United Tractors Tbk
+INCO.JK,Vale Indonesia Tbk
+EXCL.JK,PT XL Axiata Tbk

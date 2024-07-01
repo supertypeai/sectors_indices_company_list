@@ -1,31 +1,31 @@
-symbol
-ACES.JK
-ADRO.JK
-AKRA.JK
-AMRT.JK
-ANTM.JK
-ARTO.JK
-ASII.JK
-BBCA.JK
-BBNI.JK
-BBRI.JK
-BMRI.JK
-BRPT.JK
-BUKA.JK
-CPIN.JK
-GOTO.JK
-ICBP.JK
-INCO.JK
-INDF.JK
-INKP.JK
-ITMG.JK
-KLBF.JK
-MDKA.JK
-MEDC.JK
-PGAS.JK
-PGEO.JK
-PTBA.JK
-SMGR.JK
-TLKM.JK
-UNTR.JK
-UNVR.JK
+symbol,company_name
+ACES.JK,Ace Hardware Indonesia Tbk
+ADRO.JK,Adaro Energy Indonesia Tbk
+AKRA.JK,PT AKR Corporindo Tbk.
+AMRT.JK,PT Sumber Alfaria Trijaya Tbk.
+ANTM.JK,Aneka Tambang Tbk.
+ARTO.JK,PT Bank Jago Tbk.
+ASII.JK,Astra International Tbk
+BBCA.JK,PT Bank Central Asia Tbk.
+BBNI.JK,PT Bank Negara Indonesia (Persero) Tbk
+BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
+BMRI.JK,PT Bank Mandiri (Persero) Tbk
+BRPT.JK,Barito Pacific Tbk
+BUKA.JK,PT Bukalapak.com Tbk
+CPIN.JK,Charoen Pokphand Indonesia Tbk
+GOTO.JK,PT GoTo Gojek Tokopedia Tbk
+ICBP.JK,Indofood CBP Sukses Makmur Tbk
+INCO.JK,Vale Indonesia Tbk
+INDF.JK,Indofood Sukses Makmur Tbk
+INKP.JK,Indah Kiat Pulp & Paper Tbk
+ITMG.JK,Indo Tambangraya Megah Tbk
+KLBF.JK,Kalbe Farma Tbk
+MDKA.JK,PT Merdeka Copper Gold Tbk.
+MEDC.JK,PT Medco Energi Internasional Tbk
+PGAS.JK,PT Perusahaan Gas Negara Tbk.
+PGEO.JK,PT Pertamina Geothermal Energy Tbk
+PTBA.JK,Bukit Asam Tbk
+SMGR.JK,Semen Indonesia (Persero) Tbk
+TLKM.JK,PT Telkom Indonesia (Persero) Tbk
+UNTR.JK,United Tractors Tbk
+UNVR.JK,Unilever Indonesia Tbk
