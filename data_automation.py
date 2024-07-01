@@ -1,6 +1,15 @@
 import pandas as pd
 import zipfile
 import os
+from supabase import create_client
+
+# Fetch company name data from idx_company_profile data in db
+url_supabase = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+supabase = create_client(url_supabase, key)
+
+idx_data = supabase.table("idx_company_profile").select("symbol","company_name").execute()
+idx_data = pd.DataFrame(idx_data.data)
 
 def delete_all_files(directory_path):
     # List all files in the directory
@@ -32,7 +41,7 @@ def unzip_file(file_directory, extract_directory):
     
     return print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
 
-def company_list_extraction(data_path):
+def company_list_extraction(data_path,idx_data):
 
     df = pd.read_excel(data_path, skiprows=7).iloc[1:,2:]
 
@@ -47,6 +56,8 @@ def company_list_extraction(data_path):
     df["symbol"] = df['symbol'].apply(lambda x: x + ".JK")
 
     df = df[["symbol"]]
+
+    df = df.merge(idx_data,on="symbol")
 
     return df
 
@@ -64,7 +75,7 @@ excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extr
 for i in indices_list:
    file = [s for s in excel_files if i in s.upper()][0]
 
-   data = company_list_extraction(f"source_data/extracted_data/{file}")
+   data = company_list_extraction(f"source_data/extracted_data/{file}",idx_data)
 
    data.to_csv(f"company_list/companies_list_{i.lower().replace(' ','')}.csv", index=False)
 
