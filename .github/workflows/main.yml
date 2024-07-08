@@ -1,8 +1,8 @@
-name: Update subsector P/E Value, Health & Resilience Index, & Growth Index description weekly
+name: Update index daily price 
 
 on:
   schedule:
-    - cron: '0 11 * * 1-5' # Run every monday at 8am (Western Indonesia Time)
+    - cron: '0 11 * * 1-5' # Run every weekday at 6pm (Western Indonesia Time)
   
   workflow_dispatch:
       
