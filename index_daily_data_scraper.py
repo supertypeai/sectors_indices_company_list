@@ -17,7 +17,7 @@ url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-indices = ["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE"]
+indices = ["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE","^STI"]
 
 scrape_daily = pd.DataFrame()
 
