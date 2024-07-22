@@ -17,7 +17,7 @@ url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-indices = ["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE","^STI"]
+indices = ["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE","^STI","^KLSE"]
 
 scrape_daily = pd.DataFrame()
 
@@ -38,8 +38,8 @@ scrape_daily = scrape_daily.merge(index_df, on="index_code_yf").drop('index_code
 
 scrape_daily["date"] = scrape_daily["date"].astype('str')
 
-for sub_sector in range(0,scrape_daily.shape[0]):
-    try:
-        supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
-    except:
-        logging.error(f"Failed to update description for {sub_sector}.")
+# for sub_sector in range(0,scrape_daily.shape[0]):
+#     try:
+#         supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
+#     except:
+#         logging.error(f"Failed to update description for {sub_sector}.")
