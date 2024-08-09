@@ -2,6 +2,9 @@ import pandas as pd
 import zipfile
 import os
 from supabase import create_client
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Fetch company name data from idx_company_profile data in db
 url_supabase = os.environ.get("SUPABASE_URL")
@@ -36,7 +39,7 @@ def unzip_file(file_directory, extract_directory):
     zip_files = [f for f in files if os.path.isfile(os.path.join(file_directory, f)) and f.endswith('.zip')]
 
     for i in zip_files:
-        with zipfile.ZipFile(f"test_data/{i}","r") as zip_ref:
+        with zipfile.ZipFile(f"source_data/{i}","r") as zip_ref:
             zip_ref.extractall(extract_directory)
     
     return print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
