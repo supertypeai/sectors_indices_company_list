@@ -70,19 +70,22 @@ unzip_file("source_data", "source_data/extracted_data")
 # Extract Symbol
 files = os.listdir("source_data/extracted_data")
 
-indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", "SMINFRA18", "JII70"]
+indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", "SMINFRA18", "JII70", "ECONOMIC30"]
 
 # Filter only zip files
 excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extracted_data", f)) and f.endswith('.xlsx')]
 
 for i in indices_list:
-   file = [s for s in excel_files if i in s.upper()][0]
+    try:
+        file = [s for s in excel_files if i in s.upper()][0]
 
-   data = company_list_extraction(f"source_data/extracted_data/{file}",idx_data)
+        data = company_list_extraction(f"source_data/extracted_data/{file}",idx_data)
 
-   data.to_csv(f"company_list/companies_list_{i.lower().replace(' ','')}.csv", index=False)
+        data.to_csv(f"company_list/companies_list_{i.lower().replace(' ','')}.csv", index=False)
 
-   print(f"Company list for {i} index already extracted")
+        print(f"Company list for {i} index already extracted")
+    except:
+       print(f"No new update for {i} indices")
 
 print("----------------------------------------------------------")
 
