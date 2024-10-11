@@ -8,7 +8,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import logging
+from imp import reload
 logging.basicConfig(level=logging.ERROR)
+
+def initiate_logging(LOG_FILENAME):
+    reload(logging)
+
+    formatLOG = '%(asctime)s - %(levelname)s: %(message)s'
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO, format=formatLOG)
+    logging.info('Program started')
+
+LOG_FILENAME = 'scrapper.log'
+initiate_logging(LOG_FILENAME)
 
 load_dotenv()
 
@@ -38,8 +49,10 @@ scrape_daily = scrape_daily.merge(index_df, on="index_code_yf").drop('index_code
 
 scrape_daily["date"] = scrape_daily["date"].astype('str')
 
-for sub_sector in range(0,scrape_daily.shape[0]):
-    try:
-        supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
-    except:
-        logging.error(f"Failed to update description for {sub_sector}.")
+# for sub_sector in range(0,scrape_daily.shape[0]):
+#     try:
+#         supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
+#     except:
+#         logging.error(f"Failed to update description for {sub_sector}.")
+
+logging.info("Index daily price data already saved in the db")
