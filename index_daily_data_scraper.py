@@ -49,10 +49,8 @@ scrape_daily = scrape_daily.merge(index_df, on="index_code_yf").drop('index_code
 
 scrape_daily["date"] = scrape_daily["date"].astype('str')
 
-# for sub_sector in range(0,scrape_daily.shape[0]):
-#     try:
-#         supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
-#     except:
-#         logging.error(f"Failed to update description for {sub_sector}.")
-
-logging.info("Index daily price data already saved in the db")
+for sub_sector in range(0,scrape_daily.shape[0]):
+    try:
+        supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
+    except:
+        logging.error(f"Failed to update description for {sub_sector}.")
