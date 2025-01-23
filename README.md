@@ -1,3 +1,4 @@
+# Updating Index's Company List
 To update the company list in each index, here are the steps:
 - Open idx website
 - In the Menu Bar hover to "Data Pasar" and go to "Indeks Saham" in "Data Saham" sub section
