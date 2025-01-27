@@ -173,3 +173,22 @@
 2025-01-22 11:17:07,897 - INFO: Program started
 2025-01-23 11:17:13,113 - INFO: Program started
 2025-01-24 11:17:29,057 - INFO: Program started
+2025-01-27 11:17:28,327 - INFO: Program started
+2025-01-27 11:17:29,021 - ERROR: 
+1 Failed download:
+2025-01-27 11:17:29,022 - ERROR: ['WIIDN.FGI']: YFPricesMissingError('$%ticker%: possibly delisted; No price data found  (period=1d)')
+2025-01-27 11:17:31,237 - ERROR: Failed to update description for 0.
+2025-01-27 11:17:32,037 - ERROR: Failed to update description for 1.
+2025-01-27 11:17:32,816 - ERROR: Failed to update description for 2.
+2025-01-27 11:17:33,637 - ERROR: Failed to update description for 3.
+2025-01-27 11:17:34,432 - ERROR: Failed to update description for 4.
+2025-01-27 11:17:35,249 - ERROR: Failed to update description for 5.
+2025-01-27 11:17:35,544 - ERROR: Failed to update description for 6.
+2025-01-27 11:17:35,834 - ERROR: Failed to update description for 7.
+2025-01-27 11:17:36,619 - ERROR: Failed to update description for 8.
+2025-01-27 11:17:37,453 - ERROR: Failed to update description for 9.
+2025-01-27 11:17:38,229 - ERROR: Failed to update description for 10.
+2025-01-27 11:17:39,032 - ERROR: Failed to update description for 11.
+2025-01-27 11:17:39,318 - ERROR: Failed to update description for 12.
+2025-01-27 11:17:41,191 - ERROR: Failed to update description for 15.
+2025-01-27 11:17:41,963 - ERROR: Failed to update description for 16.
