@@ -760,3 +760,76 @@
 2025-02-27 11:18:14,433 - ERROR: 
 1 Failed download:
 2025-02-27 11:18:14,433 - ERROR: ['IDXVESTA28.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:40,536 - INFO: Program started
+2025-02-28 11:17:41,544 - ERROR: Failed to get ticker '^JKLQ45' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:41,972 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:41,972 - ERROR: ['^JKLQ45']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:42,387 - ERROR: Failed to get ticker 'IDX30.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:43,216 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:43,216 - ERROR: ['IDX30.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:43,615 - ERROR: Failed to get ticker 'IDXHIDIV20.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:44,069 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:44,069 - ERROR: ['IDXHIDIV20.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:44,516 - ERROR: Failed to get ticker 'IDXBUMN20.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:45,000 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:45,000 - ERROR: ['IDXBUMN20.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:45,440 - ERROR: Failed to get ticker 'WIIDN.FGI' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:46,125 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:46,125 - ERROR: ['WIIDN.FGI']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:46,894 - ERROR: Failed to get ticker 'IDXV30.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:48,310 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:48,310 - ERROR: ['IDXV30.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:48,871 - ERROR: Failed to get ticker 'IDXG30.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:49,294 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:49,294 - ERROR: ['IDXG30.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:49,686 - ERROR: Failed to get ticker 'IDXQ30.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:50,126 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:50,126 - ERROR: ['IDXQ30.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:50,740 - ERROR: Failed to get ticker 'IDXESGL.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:51,140 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:51,140 - ERROR: ['IDXESGL.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:51,492 - ERROR: Failed to get ticker 'SRI-KEHATI.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:51,869 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:51,869 - ERROR: ['SRI-KEHATI.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:52,254 - ERROR: Failed to get ticker 'SMINFRA18.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:52,996 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:52,996 - ERROR: ['SMINFRA18.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:53,371 - ERROR: Failed to get ticker 'JII70.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:53,736 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:53,736 - ERROR: ['JII70.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:54,142 - ERROR: Failed to get ticker 'KOMPAS100.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:54,549 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:54,549 - ERROR: ['KOMPAS100.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:55,027 - ERROR: Failed to get ticker '^JKSE' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:55,621 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:55,621 - ERROR: ['^JKSE']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:56,241 - ERROR: Failed to get ticker '^STI' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:56,792 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:56,792 - ERROR: ['^STI']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:57,191 - ERROR: Failed to get ticker '^KLSE' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:57,565 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:57,565 - ERROR: ['^KLSE']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:57,996 - ERROR: Failed to get ticker 'ECONOMIC30.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:58,377 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:58,377 - ERROR: ['ECONOMIC30.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-02-28 11:17:58,856 - ERROR: Failed to get ticker 'IDXVESTA28.JK' reason: Expecting value: line 1 column 1 (char 0)
+2025-02-28 11:17:59,490 - ERROR: 
+1 Failed download:
+2025-02-28 11:17:59,490 - ERROR: ['IDXVESTA28.JK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
