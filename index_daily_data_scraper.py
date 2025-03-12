@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import logging
-from imp import reload
+from importlib import reload
 logging.basicConfig(level=logging.ERROR)
 
 def initiate_logging(LOG_FILENAME):
@@ -33,7 +33,7 @@ indices = ["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV
 scrape_daily = pd.DataFrame()
 
 for i in indices:
-    data = yf.download(i, period="1d").reset_index()[["Date","Close"]]
+    data = yf.download(i, period="1d", auto_adjust=False).reset_index()[["Date","Close"]]
 
     data.columns = ["date",'price']
 
