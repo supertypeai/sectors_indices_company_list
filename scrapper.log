@@ -1471,3 +1471,22 @@
 2025-04-02 11:18:52,393 - ERROR: Failed to update description for 12.
 2025-04-02 11:18:53,432 - ERROR: Failed to update description for 15.
 2025-04-02 11:18:53,645 - ERROR: Failed to update description for 16.
+2025-04-03 11:20:53,870 - INFO: Program started
+2025-04-03 11:20:54,582 - ERROR: 
+1 Failed download:
+2025-04-03 11:20:54,583 - ERROR: ['WIIDN.FGI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-04-03 11:20:56,690 - ERROR: Failed to update description for 0.
+2025-04-03 11:20:57,308 - ERROR: Failed to update description for 1.
+2025-04-03 11:20:57,908 - ERROR: Failed to update description for 2.
+2025-04-03 11:20:58,507 - ERROR: Failed to update description for 3.
+2025-04-03 11:20:59,109 - ERROR: Failed to update description for 4.
+2025-04-03 11:20:59,699 - ERROR: Failed to update description for 5.
+2025-04-03 11:21:00,300 - ERROR: Failed to update description for 6.
+2025-04-03 11:21:00,518 - ERROR: Failed to update description for 7.
+2025-04-03 11:21:00,733 - ERROR: Failed to update description for 8.
+2025-04-03 11:21:00,958 - ERROR: Failed to update description for 9.
+2025-04-03 11:21:01,166 - ERROR: Failed to update description for 10.
+2025-04-03 11:21:01,380 - ERROR: Failed to update description for 11.
+2025-04-03 11:21:01,997 - ERROR: Failed to update description for 12.
+2025-04-03 11:21:02,661 - ERROR: Failed to update description for 15.
+2025-04-03 11:21:03,267 - ERROR: Failed to update description for 16.
