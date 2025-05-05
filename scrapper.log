@@ -1672,3 +1672,4 @@
 2025-05-02 11:19:28,186 - ERROR: 
 1 Failed download:
 2025-05-02 11:19:28,187 - ERROR: ['IDXVESTA28.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-05 11:19:46,534 - INFO: Program started
