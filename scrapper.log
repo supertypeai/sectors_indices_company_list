@@ -1673,3 +1673,55 @@
 1 Failed download:
 2025-05-02 11:19:28,187 - ERROR: ['IDXVESTA28.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
 2025-05-05 11:19:46,534 - INFO: Program started
+2025-05-06 11:19:41,607 - INFO: Program started
+2025-05-06 11:19:42,842 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:42,842 - ERROR: ['^JKLQ45']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:43,311 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:43,312 - ERROR: ['IDX30.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:43,841 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:43,841 - ERROR: ['IDXHIDIV20.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:44,586 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:44,586 - ERROR: ['IDXBUMN20.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:45,110 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:45,110 - ERROR: ['WIIDN.FGI']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:45,639 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:45,639 - ERROR: ['IDXV30.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:46,098 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:46,098 - ERROR: ['IDXG30.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:46,713 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:46,713 - ERROR: ['IDXQ30.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:47,412 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:47,412 - ERROR: ['IDXESGL.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:47,900 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:47,900 - ERROR: ['SRI-KEHATI.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:48,578 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:48,578 - ERROR: ['SMINFRA18.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:49,037 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:49,037 - ERROR: ['JII70.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:50,554 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:50,554 - ERROR: ['KOMPAS100.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:51,002 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:51,002 - ERROR: ['^JKSE']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:51,537 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:51,537 - ERROR: ['^STI']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:52,015 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:52,015 - ERROR: ['^KLSE']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
+2025-05-06 11:19:52,578 - ERROR: 
+1 Failed download:
+2025-05-06 11:19:52,578 - ERROR: ['IDXVESTA28.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
