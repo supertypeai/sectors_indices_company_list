@@ -1782,3 +1782,24 @@
 2025-05-07 11:20:50,367 - ERROR: ['IDXVESTA28.JK']: YFRateLimitError('Too Many Requests. Rate limited. Try after a while.')
 2025-05-08 11:20:07,398 - INFO: Program started
 2025-05-09 11:18:52,821 - INFO: Program started
+2025-05-12 11:20:19,514 - INFO: Program started
+2025-05-12 11:20:20,583 - ERROR: 
+1 Failed download:
+2025-05-12 11:20:20,584 - ERROR: ['WIIDN.FGI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-05-12 11:20:22,989 - ERROR: Failed to update description for 0.
+2025-05-12 11:20:23,593 - ERROR: Failed to update description for 1.
+2025-05-12 11:20:23,806 - ERROR: Failed to update description for 2.
+2025-05-12 11:20:24,415 - ERROR: Failed to update description for 3.
+2025-05-12 11:20:25,007 - ERROR: Failed to update description for 4.
+2025-05-12 11:20:25,627 - ERROR: Failed to update description for 5.
+2025-05-12 11:20:26,237 - ERROR: Failed to update description for 6.
+2025-05-12 11:20:26,852 - ERROR: Failed to update description for 7.
+2025-05-12 11:20:27,062 - ERROR: Failed to update description for 8.
+2025-05-12 11:20:27,647 - ERROR: Failed to update description for 9.
+2025-05-12 11:20:28,279 - ERROR: Failed to update description for 10.
+2025-05-12 11:20:28,491 - ERROR: Failed to update description for 11.
+2025-05-12 11:20:29,098 - ERROR: Failed to update description for 12.
+2025-05-12 11:20:29,685 - ERROR: Failed to update description for 13.
+2025-05-12 11:20:29,899 - ERROR: Failed to update description for 14.
+2025-05-12 11:20:30,118 - ERROR: Failed to update description for 15.
+2025-05-12 11:20:30,339 - ERROR: Failed to update description for 16.
