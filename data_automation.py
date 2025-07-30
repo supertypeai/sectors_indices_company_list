@@ -56,6 +56,7 @@ def unzip_file(file_directory: str, extract_directory: str):
 
     # Filter only zip files
     zip_files = [f for f in files if os.path.isfile(os.path.join(file_directory, f)) and f.endswith('.zip')]
+    print(f"Check data zip files: {zip_files[:2]}")
 
     for zip_file in zip_files:
         zip_path = os.path.join(file_directory, zip_file)
@@ -113,6 +114,7 @@ def run_indices_update():
 
     # Filter only zip files
     excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extracted_data", f)) and f.endswith('.xlsx')]
+    print(f"Check data excel files: {excel_files[:2]}")
 
     # Make sure company list dir
     os.makedirs("company_list", exist_ok=True)
