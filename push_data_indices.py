@@ -45,32 +45,27 @@ def get_all_indices() :
 
     grouped_indices = combined_df.groupby('symbol')['index'].apply(list)
     
-    return grouped_indices
+    return grouped_indices.to_dict()
 
 
-def push_to_supabase(grouped_indices: pd.DataFrame):
+def push_to_supabase(grouped_indices: dict):
     """ 
     Pushes the grouped indices data to the Supabase database.
 
     Args:
         grouped_indices (pd.DataFrame): DataFrame containing symbols and their associated indices.
     """
-    #
-    update_data = []
     for symbol, indices in grouped_indices.items():
-        update_data.append({
-            'symbol': symbol,
-            'indices': indices
-        })
-    print(f'Check data before push: {update_data[:2]}')
-    
-    # Push to supabase
-    if update_data:
-        print(f"Preparing to update {len(update_data)} symbols in Supabase...")
-        response = SUPABASE_CLIENT.table('idx_company_profile').upsert(update_data).execute()
-        print("Supabase update complete.")
-    else:
-        print("No data prepared for update.")
+        response = (
+            SUPABASE_CLIENT
+                .table('idx_company_profile')
+                .update({'indices': indices})
+                .eq('symbol', symbol)
+                .execute()
+        )
+
+        count = response.count or len(response.data or [])
+        print(f"Updated {symbol}: {count} row(s)")
 
 
 if __name__ == '__main__':
