@@ -75,3 +75,42 @@
 2025-07-30 09:57:07 [INFO] - Fetching data for index: ECONOMIC30 for year 2025
 2025-07-30 09:57:09 [INFO] - Downloading file: https://www.idx.co.id/media/4hpn5z4b/20250523-evaluasi-indeks-idxvesta28-economic30-sri-kehati-esgskehati-esgqkehati-dan-investor33.zip
 2025-07-30 09:57:13 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_ECONOMIC30.zip
+2025-07-30 10:08:56 [INFO] - Init Global Variable
+2025-07-30 10:08:56 [INFO] - Fetching data for index: IDX30 for year 2025
+2025-07-30 10:08:59 [INFO] - Downloading file: https://www.idx.co.id/media/udajofbj/20250730_evaluasi-indeks-idx30-lq45-idx80-kompas100-bisnis-27-mnc36-sminfra18-dan-idxesgl.zip
+2025-07-30 10:09:04 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX30.zip
+2025-07-30 10:09:08 [INFO] - Fetching data for index: LQ45 for year 2025
+2025-07-30 10:09:09 [INFO] - Downloading file: https://www.idx.co.id/media/udajofbj/20250730_evaluasi-indeks-idx30-lq45-idx80-kompas100-bisnis-27-mnc36-sminfra18-dan-idxesgl.zip
+2025-07-30 10:09:11 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_LQ45.zip
+2025-07-30 10:09:15 [INFO] - Fetching data for index: KOMPAS100 for year 2025
+2025-07-30 10:09:17 [INFO] - Downloading file: https://www.idx.co.id/media/udajofbj/20250730_evaluasi-indeks-idx30-lq45-idx80-kompas100-bisnis-27-mnc36-sminfra18-dan-idxesgl.zip
+2025-07-30 10:09:19 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_KOMPAS100.zip
+2025-07-30 10:09:31 [INFO] - Fetching data for index: IDX BUMN20 for year 2025
+2025-07-30 10:09:33 [INFO] - Downloading file: https://www.idx.co.id/media/mc0hcmgx/20250730-evaluasi-indeks-idxbumn20-idxsmc-liq-idxsmc-com-idxhidiv20-idxv30-idxg30-idxg30-idxlq45lcl.zip
+2025-07-30 10:09:35 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX BUMN20.zip
+2025-07-30 10:09:42 [INFO] - Fetching data for index: IDX HIDIV20 for year 2025
+2025-07-30 10:09:43 [INFO] - Downloading file: https://www.idx.co.id/media/mc0hcmgx/20250730-evaluasi-indeks-idxbumn20-idxsmc-liq-idxsmc-com-idxhidiv20-idxv30-idxg30-idxg30-idxlq45lcl.zip
+2025-07-30 10:09:45 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX HIDIV20.zip
+2025-07-30 10:09:54 [INFO] - Fetching data for index: IDX G30 for year 2025
+2025-07-30 10:09:59 [INFO] - Downloading file: https://www.idx.co.id/media/mc0hcmgx/20250730-evaluasi-indeks-idxbumn20-idxsmc-liq-idxsmc-com-idxhidiv20-idxv30-idxg30-idxg30-idxlq45lcl.zip
+2025-07-30 10:10:03 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX G30.zip
+2025-07-30 10:10:15 [INFO] - Fetching data for index: IDX V30 for year 2025
+2025-07-30 10:10:16 [INFO] - Downloading file: https://www.idx.co.id/media/mc0hcmgx/20250730-evaluasi-indeks-idxbumn20-idxsmc-liq-idxsmc-com-idxhidiv20-idxv30-idxg30-idxg30-idxlq45lcl.zip
+2025-07-30 10:10:18 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX V30.zip
+2025-07-30 10:10:24 [INFO] - Fetching data for index: IDX Q30 for year 2025
+2025-07-30 10:10:29 [INFO] - Downloading file: https://www.idx.co.id/media/mc0hcmgx/20250730-evaluasi-indeks-idxbumn20-idxsmc-liq-idxsmc-com-idxhidiv20-idxv30-idxg30-idxg30-idxlq45lcl.zip
+2025-07-30 10:10:30 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX Q30.zip
+2025-07-30 10:10:42 [INFO] - Fetching data for index: IDX ESGL for year 2025
+2025-07-30 10:10:43 [INFO] - Downloading file: https://www.idx.co.id/media/udajofbj/20250730_evaluasi-indeks-idx30-lq45-idx80-kompas100-bisnis-27-mnc36-sminfra18-dan-idxesgl.zip
+2025-07-30 10:10:49 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_IDX ESGL.zip
+2025-07-30 10:10:53 [INFO] - Fetching data for index: SRIKEHATI for year 2025
+2025-07-30 10:10:54 [INFO] - No data found for index: SRIKEHATI. Skipping.
+2025-07-30 10:10:54 [INFO] - Fetching data for index: SMINFRA18 for year 2025
+2025-07-30 10:10:56 [INFO] - Downloading file: https://www.idx.co.id/media/udajofbj/20250730_evaluasi-indeks-idx30-lq45-idx80-kompas100-bisnis-27-mnc36-sminfra18-dan-idxesgl.zip
+2025-07-30 10:11:02 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_SMINFRA18.zip
+2025-07-30 10:11:13 [INFO] - Fetching data for index: JII70 for year 2025
+2025-07-30 10:11:14 [INFO] - Downloading file: https://www.idx.co.id/media/agidhlzw/20250601_evaluasi-indeks-issi-jii-jii70-idxshagrow-dan-idxmesbumn.zip
+2025-07-30 10:11:17 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_JII70.zip
+2025-07-30 10:11:29 [INFO] - Fetching data for index: ECONOMIC30 for year 2025
+2025-07-30 10:11:30 [INFO] - Downloading file: https://www.idx.co.id/media/4hpn5z4b/20250523-evaluasi-indeks-idxvesta28-economic30-sri-kehati-esgskehati-esgqkehati-dan-investor33.zip
+2025-07-30 10:11:32 [INFO] - Successfully saved to source_data/index_data_idx_downloaded_ECONOMIC30.zip
