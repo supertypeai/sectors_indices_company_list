@@ -1,0 +1,57 @@
+name: Update indices company list  
+
+on:
+  schedule:
+    - cron: "0 0 1 * *" # at 00:00 (midnight) on the 1st day of every month
+  
+  workflow_dispatch:
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12 # Replace with your desired Python version
+        cache: pip
+        cache-dependency-path: requirements.txt
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Python Script
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        PROXY : ${{ secrets.PROXY }}
+    
+    - name: Run Download zip files
+      run: python indices_zip_data_scraper.py
+
+    - name: Run Update companies list indices
+      run: python data_automation.py
+
+    - name: Pull Latest Changes
+      run: git pull origin main
+
+    - name: commit files
+      run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add company_list indices_scraping.log
+          git diff-index --quiet HEAD || (git commit -m "Update company list indices" --allow-empty)
+          
+    - name: push changes
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.TOKEN_GITHUB }}
+        branch: main 
