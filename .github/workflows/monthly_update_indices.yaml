@@ -46,7 +46,7 @@ jobs:
       run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add company_list indices_scraping.log
+          git add company_list 
           git diff-index --quiet HEAD || (git commit -m "Update company list indices" --allow-empty)
           
     - name: push changes

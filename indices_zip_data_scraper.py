@@ -12,7 +12,7 @@ import random
 
 # Setup Logging
 logging.basicConfig(
-    filename='indices_scraping.log', # Set a file for save logger output 
+    # filename='indices_scraping.log', # Set a file for save logger output 
     level=logging.INFO, # Set the logging level
     format='%(asctime)s [%(levelname)s] - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
