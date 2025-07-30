@@ -122,10 +122,10 @@ def run_indices_update():
     for indices in indices_list:
         try:
             file = [s for s in excel_files if indices in s.upper()][0]
-            print(f"Check data file: {file[:2]}")
-            
+            print(f"Check data file: {file}")
+
             data = company_list_extraction(f"source_data/extracted_data/{file}", IDX_DATA)
-            print(f"Check data company list extracted: {data[:2]}")
+            print(f"Check data company list extracted: {data.head()}")
 
             data.to_csv(f"company_list/companies_list_{indices.lower().replace(' ','')}.csv", index=False)
 
