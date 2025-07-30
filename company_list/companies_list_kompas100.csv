@@ -1,4 +1,5 @@
 symbol,company_name
+AADI.JK,PT Adaro Andalan Indonesia Tbk
 ACES.JK,PT Aspirasi Hidup Indonesia Tbk
 ADMR.JK,PT Adaro Minerals Indonesia Tbk
 ADRO.JK,Alamtri Resources Indonesia Tbk
@@ -8,6 +9,7 @@ AMRT.JK,PT Sumber Alfaria Trijaya Tbk.
 ANTM.JK,Aneka Tambang Tbk.
 ARTO.JK,PT Bank Jago Tbk.
 ASII.JK,Astra International Tbk
+ASRI.JK,ALAM SUTERA REALTY Tbk
 AUTO.JK,Astra Otoparts Tbk
 AVIA.JK,PT Avia Avian Tbk
 BBCA.JK,PT Bank Central Asia Tbk.
@@ -15,21 +17,23 @@ BBNI.JK,PT Bank Negara Indonesia (Persero) Tbk
 BBRI.JK,PT Bank Rakyat Indonesia (Persero) Tbk
 BBTN.JK,PT Bank Tabungan Negara (Persero) Tbk
 BBYB.JK,PT Bank Neo Commerce Tbk.
-BDKR.JK,PT Berdikari Pondasi Perkasa Tbk.
 BFIN.JK,BFI Finance Indonesia Tbk
 BMRI.JK,PT Bank Mandiri (Persero) Tbk
-BMTR.JK,PT Global Mediacom Tbk
 BNGA.JK,PT Bank CIMB Niaga Tbk
 BRIS.JK,PT Bank Syariah Indonesia Tbk
 BRMS.JK,Bumi Resources Minerals Tbk
 BRPT.JK,Barito Pacific Tbk
 BSDE.JK,PT Bumi Serpong Damai Tbk
 BTPS.JK,PT Bank BTPN Syariah Tbk.
+BUKA.JK,PT Bukalapak.com Tbk
+BUMI.JK,Bumi Resources Tbk
+CLEO.JK,PT Sariguna Primatirta Tbk
 CMRY.JK,PT Cisarua Mountain Dairy Tbk
 CPIN.JK,Charoen Pokphand Indonesia Tbk
 CTRA.JK,Ciputra Development Tbk
 DEWA.JK,Darma Henwa Tbk
 DSNG.JK,PT Dharma Satya Nusantara Tbk.
+DSSA.JK,Dian Swastatika Sentosa Tbk
 ELSA.JK,Elnusa Tbk
 EMTK.JK,Elang Mahkota Teknologi Tbk
 ENRG.JK,Energi Mega Persada Tbk
@@ -47,7 +51,6 @@ ICBP.JK,Indofood CBP Sukses Makmur Tbk
 INCO.JK,Vale Indonesia Tbk
 INDF.JK,Indofood Sukses Makmur Tbk
 INDY.JK,Indika Energy Tbk
-INET.JK,PT Sinergi Inti Andalan Prima Tbk.
 INKP.JK,Indah Kiat Pulp & Paper Tbk
 INTP.JK,Indocement Tunggal Prakarsa Tbk
 ISAT.JK,PT Indosat Tbk
@@ -60,11 +63,9 @@ KPIG.JK,MNC Land Tbk
 LSIP.JK,PP London Sumatra Indonesia Tbk
 MAPA.JK,PT MAP Aktif Adiperkasa Tbk.
 MAPI.JK,Mitra Adiperkasa Tbk
-MARK.JK,PT Mark Dynamics Indonesia Tbk.
 MBMA.JK,PT Merdeka Battery Materials Tbk
 MDKA.JK,PT Merdeka Copper Gold Tbk.
 MEDC.JK,PT Medco Energi Internasional Tbk
-MIDI.JK,Midi Utama Indonesia Tbk
 MIKA.JK,PT Mitra Keluarga Karyasehat Tbk.
 MNCN.JK,Media Nusantara Citra Tbk
 MTEL.JK,PT Dayamitra Telekomunikasi Tbk
@@ -74,6 +75,7 @@ NISP.JK,PT Bank OCBC NISP Tbk
 PANI.JK,PT Pantai Indah Kapuk Dua Tbk.
 PGAS.JK,PT Perusahaan Gas Negara Tbk.
 PGEO.JK,PT Pertamina Geothermal Energy Tbk
+PNBN.JK,Bank Pan Indonesia Tbk
 PNLF.JK,Panin Financial Tbk
 PTBA.JK,Bukit Asam Tbk
 PTPP.JK,PP (Persero) Tbk
@@ -82,20 +84,18 @@ PWON.JK,Pakuwon Jati Tbk
 RAJA.JK,Rukun Raharja Tbk
 SCMA.JK,Surya Citra Media Tbk
 SIDO.JK,PT Industri Jamu Dan Farmasi Sido Muncul Tbk
+SMDR.JK,Samudera Indonesia Tbk
 SMGR.JK,Semen Indonesia (Persero) Tbk
-SMIL.JK,PT Sarana Mitra Luas Tbk
 SMRA.JK,PT Summarecon Agung Tbk
 SRTG.JK,PT Saratoga Investama Sedaya Tbk.
 SSIA.JK,PT Surya Semesta Internusa Tbk
-SSMS.JK,PT Sawit Sumbermas Sarana Tbk.
-SURI.JK,PT Maja Agung Latexindo Tbk.
+STAA.JK,PT Sumber Tani Agung Resources Tbk
+TAPG.JK,PT Triputra Agro Persada Tbk.
+TCPI.JK,PT Transcoal Pacific Tbk.
 TINS.JK,PT Timah Tbk.
 TKIM.JK,Pabrik Kertas Tjiwi Kimia Tbk
 TLKM.JK,PT Telkom Indonesia (Persero) Tbk
-TOBA.JK,PT TBS Energi Utama Tbk
 TOWR.JK,Sarana Menara Nusantara Tbk
 TPIA.JK,PT Chandra Asri Pacific Tbk
-UNIQ.JK,PT Ulima Nitra Tbk
 UNTR.JK,United Tractors Tbk
 UNVR.JK,Unilever Indonesia Tbk
-WIFI.JK,PT Solusi Sinergi Digital Tbk
