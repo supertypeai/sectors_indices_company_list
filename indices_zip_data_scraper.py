@@ -101,7 +101,10 @@ def get_zip_files():
 
     # Loop through each index and fetch the corresponding data
     for indices in indices_list:
+        if indices == 'SRIKEHATI':
+            encoded_indices = 'SRI-KEHATI'
         encoded_indices = indices.replace(' ','')
+        
         
         LOGGER.info(f"Fetching data for index: {indices} for year {current_year}")
 
