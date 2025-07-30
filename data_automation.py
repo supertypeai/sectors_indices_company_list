@@ -57,9 +57,13 @@ def unzip_file(file_directory: str, extract_directory: str):
     # Filter only zip files
     zip_files = [f for f in files if os.path.isfile(os.path.join(file_directory, f)) and f.endswith('.zip')]
 
-    for i in zip_files:
-        with zipfile.ZipFile(f"source_data/{i}","r") as zip_ref:
-            zip_ref.extractall(extract_directory)
+    for zip_file in zip_files:
+        zip_path = os.path.join(file_directory, zip_file)
+        try:
+            with zipfile.ZipFile(zip_path, "r") as zip_ref:
+                zip_ref.extractall(extract_directory)
+        except Exception as error:
+            print(f"Failed to unzip file: {zip_path}. Reason: {error}")
     
     return print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
 
@@ -118,6 +122,7 @@ def run_indices_update():
             file = [s for s in excel_files if indices in s.upper()][0]
 
             data = company_list_extraction(f"source_data/extracted_data/{file}", IDX_DATA)
+            print(f"Check data company list extracted: {data[:2]}")
 
             data.to_csv(f"company_list/companies_list_{indices.lower().replace(' ','')}.csv", index=False)
 
