@@ -36,7 +36,7 @@ jobs:
     - name: Run Download zip files
       run: python indices_zip_data_scraper.py
 
-    - name: Run Update companies list indices
+    - name: Run Update companies list indices and push to db
       run: python data_automation.py
 
     - name: Pull Latest Changes
