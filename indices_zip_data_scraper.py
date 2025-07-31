@@ -92,7 +92,9 @@ def get_zip_files():
     """ 
     Downloads zip files from the IDX website for various indices and saves them to a local directory.
     """
-    indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", "SMINFRA18", "JII70", "ECONOMIC30"]
+    indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
+                    'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
+                    "SMINFRA18", "JII70", "ECONOMIC30", "IDXVESTA28"]
     current_year = datetime.now().year
     base_url = "https://www.idx.co.id"
 
