@@ -112,7 +112,7 @@ def run_indices_update():
 
     indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
                     'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
-                    "SMinfra18", "JII70", "ECONOMIC30", "IDXVESTA28"]
+                    "SMinfra18", "JII70", "ECONOMIC30", "INFOVESTA28"]
 
     # Filter only zip files
     excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extracted_data", f)) and f.endswith('.xlsx')]
