@@ -168,12 +168,16 @@ def get_zip_files():
 
             # Check excel files that contains indices list
             for excel_file in extracted_files:
+                if 'INFOVESTA28' in excel_file:
+                    indices_found_in_zip.add('IDXVESTA28')
+
                 for index_to_check in remaining_indices:
                     if index_to_check in excel_file:
                         indices_found_in_zip.add(index_to_check)
             
             LOGGER.info(f"Downloaded zip for '{current_index}'. It covers: {list(indices_found_in_zip)}")
-
+            
+            # If index excel did not found, add to indices_found_in_zip then can be drop
             if not indices_found_in_zip:
                 LOGGER.info(f'Move to the next remaining indices')
                 indices_found_in_zip.add(current_index)
