@@ -112,18 +112,18 @@ def run_indices_update():
 
     indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
                     'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
-                    "SMINFRA18", "JII70", "ECONOMIC30", "IDXVESTA28"]
+                    "SMinfra18", "JII70", "ECONOMIC30", "IDXVESTA28"]
 
     # Filter only zip files
     excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extracted_data", f)) and f.endswith('.xlsx')]
-    print(f"Check data excel files: {excel_files[:2]}")
+    print(f"Check data excel files: {excel_files}")
 
     # Make sure company list dir
     os.makedirs("company_list", exist_ok=True)
 
     for indices in indices_list:
         try:
-            file = [s for s in excel_files if indices in s.upper()][0]
+            file = [s for s in excel_files if indices in s][0]
             print(f"Check data file: {file}")
 
             data = company_list_extraction(f"source_data/extracted_data/{file}", IDX_DATA)

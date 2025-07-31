@@ -114,6 +114,8 @@ def get_zip_files():
     
     remaining_indices = indices_list.copy()
 
+    content_mismatch_failures = []
+
     current_year = datetime.now().year
     base_url = "https://www.idx.co.id"
     save_dir = "source_data"
@@ -171,6 +173,8 @@ def get_zip_files():
                 # Special case for idxvesta28
                 if 'INFOVESTA28' in excel_file:
                     indices_found_in_zip.add('IDXVESTA28')
+                elif 'SMinfra18' in excel_file:
+                    indices_found_in_zip.add('SMINFRA18') 
 
                 for index_to_check in remaining_indices:
                     if index_to_check in excel_file:
@@ -180,8 +184,9 @@ def get_zip_files():
             
             # If index excel did not found, add to indices_found_in_zip then can be drop
             if not indices_found_in_zip:
-                LOGGER.info(f'Move to the next remaining indices')
-                indices_found_in_zip.add(current_index)
+                LOGGER.info(f"Zip for {current_index} downloaded, but its contents did not match any remaining indices")
+                content_mismatch_failures.append(current_index)
+                remaining_indices.pop(0)
 
             # Drop any indices list already found
             remaining_indices = [indices for indices in remaining_indices if indices not in indices_found_in_zip]
@@ -196,7 +201,10 @@ def get_zip_files():
         random_sleep = random.uniform(3, 12)
         time.sleep(random_sleep)
     
-    LOGGER.info("All indices were successfully processed")
+    if not content_mismatch_failures:
+        LOGGER.info("All indices were successfully processed")
+    else:
+         LOGGER.info(f"The following indices were downloaded, but contents did not match any expected index names: {content_mismatch_failures}")
 
 
 if __name__ == '__main__':
