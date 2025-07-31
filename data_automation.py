@@ -163,7 +163,7 @@ def get_all_indices() -> dict :
 
     combined_df = pd.concat(all_indices_data, ignore_index=True)
     print(f'length before remove duplicate check: {len(combined_df)}')
-    
+
     combined_df.drop_duplicates(subset=['symbol', 'index'], inplace=True)
     print(f'length after remove duplicate check: {len(combined_df)}')
 
@@ -179,6 +179,8 @@ def push_to_supabase(grouped_indices: dict):
     Args:
         grouped_indices (pd.DataFrame): DataFrame containing symbols and their associated indices.
     """
+    print("Start inserting data to db")
+
     for symbol, indices in grouped_indices.items():
         response = (
             SUPABASE_CLIENT
