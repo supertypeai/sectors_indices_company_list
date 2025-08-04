@@ -129,6 +129,12 @@ def run_indices_update():
             data = company_list_extraction(f"source_data/extracted_data/{file}", IDX_DATA)
             print(f"Check data company list extracted: {data.head()}")
 
+            # special case for idxvesta and sminfra to saved as csv
+            if indices == 'INFOVESTA28': 
+                indices = 'IDXVESTA28'
+            elif indices == 'SMinfra18':
+                indices = 'SMINFRA18'
+
             data.to_csv(f"company_list/companies_list_{indices.lower().replace(' ','')}.csv", index=False)
 
             print(f"Company list for {indices} index already extracted")
@@ -201,6 +207,6 @@ if __name__ == '__main__':
     run_indices_update()
     delete_all_files("source_data/extracted_data")
     delete_all_files("source_data")
-    # Push to db
+    # # Push to db
     grouped_indices = get_all_indices()
     push_to_supabase(grouped_indices)
