@@ -1974,3 +1974,5 @@
 2025-08-06 11:23:37,775 - INFO: Program started
 2025-08-07 11:23:47,938 - INFO: Program started
 2025-08-08 11:23:35,756 - INFO: Program started
+2025-08-11 11:23:01,489 - INFO: Program started
+2025-08-11 11:23:12,208 - ERROR: Failed to get ticker 'IDXBUMN20.JK' reason: Failed to perform, curl: (28) Connection timed out after 10002 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
