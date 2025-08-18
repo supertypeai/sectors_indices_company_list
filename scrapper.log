@@ -1980,3 +1980,52 @@
 2025-08-13 11:22:03,109 - INFO: Program started
 2025-08-14 11:21:47,215 - INFO: Program started
 2025-08-15 11:20:38,092 - INFO: Program started
+2025-08-18 11:22:07,279 - INFO: Program started
+2025-08-18 11:22:08,144 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:08,144 - ERROR: ['^JKLQ45']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:08,514 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:08,514 - ERROR: ['IDX30.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:09,074 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:09,074 - ERROR: ['IDXHIDIV20.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:09,492 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:09,492 - ERROR: ['IDXBUMN20.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:09,788 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:09,788 - ERROR: ['WIIDN.FGI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:10,185 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:10,185 - ERROR: ['IDXV30.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:10,512 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:10,512 - ERROR: ['IDXG30.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:10,910 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:10,910 - ERROR: ['IDXQ30.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:11,318 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:11,318 - ERROR: ['IDXESGL.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:11,644 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:11,644 - ERROR: ['SRI-KEHATI.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:11,971 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:11,971 - ERROR: ['SMINFRA18.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:12,277 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:12,278 - ERROR: ['JII70.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:12,644 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:12,644 - ERROR: ['KOMPAS100.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:13,073 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:13,073 - ERROR: ['^JKSE']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:14,038 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:14,038 - ERROR: ['ECONOMIC30.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-18 11:22:14,354 - ERROR: 
+1 Failed download:
+2025-08-18 11:22:14,354 - ERROR: ['IDXVESTA28.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
