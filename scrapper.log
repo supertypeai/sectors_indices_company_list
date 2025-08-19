@@ -2029,3 +2029,4 @@
 2025-08-18 11:22:14,354 - ERROR: 
 1 Failed download:
 2025-08-18 11:22:14,354 - ERROR: ['IDXVESTA28.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-08-19 11:20:00,033 - INFO: Program started
