@@ -2068,3 +2068,7 @@
 2025-09-10 11:18:17,341 - INFO: Program started
 2025-09-11 11:17:54,694 - INFO: Program started
 2025-09-12 11:18:21,021 - INFO: Program started
+2025-09-15 11:18:34,440 - INFO: Program started
+2025-09-15 11:18:37,134 - ERROR: 
+1 Failed download:
+2025-09-15 11:18:37,134 - ERROR: ['^KLSE']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
