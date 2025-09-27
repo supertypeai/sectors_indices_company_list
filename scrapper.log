@@ -2177,3 +2177,25 @@
 2025-09-26 11:18:37,763 - ERROR: 
 1 Failed download:
 2025-09-26 11:18:37,763 - ERROR: ['IDXVESTA28.JK']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2025-09-27 13:30:49,866 - INFO: Program started
+2025-09-27 13:30:53,406 - ERROR: Failed to update description for 0.
+2025-09-27 13:30:54,287 - ERROR: Failed to update description for 3.
+2025-09-27 13:30:54,575 - ERROR: Failed to update description for 4.
+2025-09-27 13:30:54,867 - ERROR: Failed to update description for 5.
+2025-09-27 13:30:55,157 - ERROR: Failed to update description for 6.
+2025-09-27 13:30:55,452 - ERROR: Failed to update description for 7.
+2025-09-27 13:30:55,746 - ERROR: Failed to update description for 8.
+2025-09-27 13:30:56,042 - ERROR: Failed to update description for 9.
+2025-09-27 13:30:56,331 - ERROR: Failed to update description for 10.
+2025-09-27 13:30:56,623 - ERROR: Failed to update description for 11.
+2025-09-27 13:30:56,917 - ERROR: Failed to update description for 12.
+2025-09-27 13:30:57,214 - ERROR: Failed to update description for 13.
+2025-09-27 13:30:57,502 - ERROR: Failed to update description for 14.
+2025-09-27 13:30:58,707 - ERROR: Failed to update description for 18.
+2025-09-27 13:30:58,999 - ERROR: Failed to update description for 19.
+2025-09-27 13:30:59,290 - ERROR: Failed to update description for 20.
+2025-09-27 13:30:59,577 - ERROR: Failed to update description for 21.
+2025-09-27 13:30:59,866 - ERROR: Failed to update description for 22.
+2025-09-27 13:31:00,167 - ERROR: Failed to update description for 23.
+2025-09-27 13:31:00,463 - ERROR: Failed to update description for 24.
+2025-09-27 13:31:00,753 - ERROR: Failed to update description for 25.
