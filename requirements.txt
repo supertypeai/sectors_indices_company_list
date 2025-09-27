@@ -3,5 +3,5 @@ pandas==2.2.3
 python-dotenv==1.0.1
 requests==2.32.3
 supabase==2.16.0
-yfinance==0.2.59
+yfinance==0.2.66
 openpyxl 
