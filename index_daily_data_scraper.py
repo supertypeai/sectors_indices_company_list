@@ -29,15 +29,15 @@ load_dotenv()
 # Configure supabase client
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
-# supabase = create_client(url, key)
+supabase = create_client(url, key)
 
 # Fetch STI, KLSE, FTSE from yf
-indices = ["^STI","^KLSE",]#["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"WIIDN.FGI","IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE","ECONOMIC30.JK","IDXVESTA28.JK"]
+indices = ["^STI","^KLSE","WIIDN.FGI"]#["^JKLQ45","IDX30.JK","IDXHIDIV20.JK",'IDXBUMN20.JK',"IDXV30.JK","IDXG30.JK",'IDXQ30.JK','IDXESGL.JK',"SRI-KEHATI.JK","SMINFRA18.JK",'JII70.JK',"KOMPAS100.JK","^JKSE","ECONOMIC30.JK","IDXVESTA28.JK"]
 
 scrape_daily = pd.DataFrame()
 
 for i in indices:
-    data = yf.download(i, period="3d", auto_adjust=False).reset_index()[["Date","Close"]]
+    data = yf.download(i, period="1d", auto_adjust=False).reset_index()[["Date","Close"]]
 
     data.columns = ["date",'price']
 
