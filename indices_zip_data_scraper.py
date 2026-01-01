@@ -170,7 +170,7 @@ def get_zip_files():
 
             # Check excel files that contains indices list
             for excel_file in extracted_files:
-                # Special case for idxvesta28
+                # Special case for idxvesta28 and sminfra18
                 if 'INFOVESTA28' in excel_file:
                     indices_found_in_zip.add('IDXVESTA28')
                 elif 'SMinfra18' in excel_file:

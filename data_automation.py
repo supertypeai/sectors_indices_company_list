@@ -55,18 +55,22 @@ def unzip_file(file_directory: str, extract_directory: str):
     files = os.listdir(file_directory)
 
     # Filter only zip files
-    zip_files = [f for f in files if os.path.isfile(os.path.join(file_directory, f)) and f.endswith('.zip')]
+    zip_files = [
+        file for file in files 
+        if os.path.isfile(os.path.join(file_directory, file)) and file.endswith('.zip')
+    ]
     print(f"Check data zip files: {zip_files[:2]}")
 
     for zip_file in zip_files:
         zip_path = os.path.join(file_directory, zip_file)
+
         try:
             with zipfile.ZipFile(zip_path, "r") as zip_ref:
                 zip_ref.extractall(extract_directory)
         except Exception as error:
             print(f"Failed to unzip file: {zip_path}. Reason: {error}")
     
-    return print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
+    print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
 
 
 def company_list_extraction(data_path: str, idx_data: pd.DataFrame) -> pd.DataFrame:
@@ -104,6 +108,15 @@ def run_indices_update():
     Main function to run the indices update process.
     Unzips the downloaded files, extracts company lists, and saves them.
     """
+    if not os.path.isdir("source_data"):
+        print("No source_data directory. Skipping indices update")
+        return
+
+    zip_files = [file for file in os.listdir("source_data") if file.endswith(".zip")]
+    if not zip_files:
+        print("No zip files in source_data. Skipping indices update")
+        return
+
     # Unzip file
     unzip_file("source_data", "source_data/extracted_data")
 
@@ -115,7 +128,10 @@ def run_indices_update():
                     "SMinfra18", "JII70", "ECONOMIC30", "INFOVESTA28"]
 
     # Filter only zip files
-    excel_files = [f for f in files if os.path.isfile(os.path.join("source_data/extracted_data", f)) and f.endswith('.xlsx')]
+    excel_files = [
+        file for file in files 
+        if os.path.isfile(os.path.join("source_data/extracted_data", file)) and file.endswith('.xlsx')
+    ]
     print(f"Check data excel files: {excel_files}")
 
     # Make sure company list dir
