@@ -140,6 +140,7 @@ def run_indices_update():
     # Make sure company list dir
     os.makedirs("company_list", exist_ok=True)
 
+    saved_to_csv = 0 
     for indices in indices_list:
         try:
             file = [s for s in excel_files if indices in s][0]
@@ -155,12 +156,14 @@ def run_indices_update():
                 indices = 'SMINFRA18'
 
             data.to_csv(f"company_list/companies_list_{indices.lower().replace(' ','')}.csv", index=False)
+            saved_to_csv += 1 
 
             print(f"Company list for {indices} index already extracted")
         except:
             print(f"No new update for {indices} indices")
 
     print("----------------------------------------------------------")
+    return saved_to_csv > 0 
 
 
 def get_all_indices() -> dict :
@@ -223,9 +226,14 @@ def push_to_supabase(grouped_indices: dict):
 
 if __name__ == '__main__':
     # Update indices csv on company_list dir
-    run_indices_update()
+    updated = run_indices_update()
     delete_all_files("source_data/extracted_data")
     delete_all_files("source_data")
-    # # Push to db
+    
+    if not updated:
+        print("No new data processed. Skipping push to Supabase")
+        exit()
+
+    # Push to db
     grouped_indices = get_all_indices()
     push_to_supabase(grouped_indices)
