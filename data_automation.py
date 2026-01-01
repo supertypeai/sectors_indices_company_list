@@ -27,6 +27,9 @@ def delete_all_files(directory_path: str) -> str:
     Returns:
         str: Confirmation message indicating that all files have been deleted.
     """
+    if not os.path.exists(directory_path):
+        return f"Directory {directory_path} does not exist. Nothing to delete"
+
     # List all files in the directory
     for filename in os.listdir(directory_path):
         file_path = os.path.join(directory_path, filename)
