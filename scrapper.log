@@ -2320,3 +2320,8 @@
 2026-01-28 11:28:04,094 - INFO: Program started
 2026-01-29 11:35:28,386 - INFO: Program started
 2026-01-30 11:33:48,361 - INFO: Program started
+2026-02-02 11:38:55,438 - INFO: Program started
+2026-02-02 11:38:56,118 - ERROR: 
+1 Failed download:
+2026-02-02 11:38:56,118 - ERROR: ['WIIDN.FGI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2026-02-02 11:38:59,901 - ERROR: Failed to update description for 1.
