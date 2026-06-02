@@ -2451,3 +2451,7 @@
 2026-05-27 14:29:29,329 - ERROR: Failed to update description for 16.
 2026-05-27 14:29:29,568 - ERROR: Failed to update description for 17.
 2026-05-29 14:10:35,984 - INFO: Program started
+2026-06-02 14:56:51,331 - INFO: Program started
+2026-06-02 14:56:52,096 - ERROR: 
+1 Failed download:
+2026-06-02 14:56:52,096 - ERROR: ['^KLSE']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
