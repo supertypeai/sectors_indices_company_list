@@ -173,12 +173,7 @@ def get_zip_files():
         success = requester.download_file(full_url, os.path.join(save_dir, original_file_name))
 
         if not success:
-            failed_item = {
-                'current_index': current_index, 
-                'url': full_url
-            }
-
-            download_failures.append(failed_item)
+            download_failures.append(current_index)
             remaining_indices.pop(0)
             continue 
 
@@ -215,12 +210,7 @@ def get_zip_files():
         time.sleep(random_sleep)
     
     if download_failures:
-        failed_indices = [
-            failed['current_index'] 
-            for failed in download_failures
-        ]
-        
-        LOGGER.warning(f"Failed to download index files for: {failed_indices}")
+        LOGGER.warning(f"Failed to download index files for: {download_failures}")
 
     if not content_mismatch_failures:
         LOGGER.info("All indices were successfully processed")

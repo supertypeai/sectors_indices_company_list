@@ -73,7 +73,7 @@ def unzip_file(file_directory: str, extract_directory: str):
         file for file in file_directory.iterdir()
         if file.is_file() and file.suffix == ".zip"
     ]
-    
+
     print(f"Check data zip files: {[file.name for file in zip_files[:2]]}")
 
     for zip_file in zip_files:
@@ -160,11 +160,25 @@ def run_indices_update():
     
     for indices in indices_list:
         try:
-            file = [
+            matching_files = [
                 excel_file 
                 for excel_file in excel_files 
-                if indices in excel_file.name and "Mayor" in excel_file.name
-            ][0]
+                if f"{indices} -" in excel_file.name
+            ]
+            
+            mayor_files = [
+                excel_file 
+                for excel_file in matching_files 
+                if "Mayor" in excel_file.name
+            ]
+            
+            minor_files = [
+                excel_file 
+                for excel_file in matching_files 
+                if "Minor" in excel_file.name
+            ]
+            
+            file = (mayor_files or minor_files)[0]
 
             print(f"Check data file: {file.name}")
 
