@@ -1,5 +1,6 @@
-from dotenv     import load_dotenv 
-from datetime   import datetime
+from dotenv import load_dotenv 
+from datetime import datetime
+from urllib.parse import quote
 
 import os 
 import logging 
@@ -11,9 +12,8 @@ import random
 import zipfile
 
 
-# Setup Logging
 logging.basicConfig(
-    level=logging.INFO, # Set the logging level
+    level=logging.INFO, 
     format='%(asctime)s [%(levelname)s] - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
     )
@@ -56,6 +56,7 @@ class ProxyRequester:
         try:
             with urllib.request.urlopen(url) as response:
                 return response.read().decode()
+            
         except Exception as error:
             print(f"Error fetching URL: {error}")
             return False
@@ -72,7 +73,11 @@ class ProxyRequester:
             bool: True if the file was downloaded and saved successfully, False otherwise.
         """
         try: 
-            with urllib.request.urlopen(url) as response:
+            request = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            })
+
+            with urllib.request.urlopen(request) as response:
                 file_content = response.read()
 
             with open(saved_dir, 'wb') as file_zip:
@@ -80,6 +85,7 @@ class ProxyRequester:
             
             print(f"Zip files saved to: {saved_dir}")
             return True
+        
         except Exception as error:
             print(f"Failed to download {url}. Error: {error}")
             return False
@@ -100,21 +106,22 @@ class ProxyRequester:
             return zip_ref.namelist()
 
 
-# Requester api url 
-REQUESTER = ProxyRequester(proxy=PROXY)
-
-
 def get_zip_files():
     """ 
     Efficiently downloads the minimum number of zip files needed to cover all specified indices.
     """
-    indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
-                    'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
-                    "SMINFRA18", "JII70", "ECONOMIC30", "IDXVESTA28"]
+    requester = ProxyRequester(proxy=PROXY)
+
+    indices_list = [
+        "IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
+        'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
+        "SMINFRA18", "JII70", "ECONOMIC30", "IDXVESTA28"
+    ]
     
     remaining_indices = indices_list.copy()
 
     content_mismatch_failures = []
+    download_failures = []
 
     current_year = datetime.now().year
     base_url = "https://www.idx.co.id"
@@ -127,24 +134,24 @@ def get_zip_files():
 
         if current_index == 'SRIKEHATI':
             encoded_indices = 'SRI-KEHATI'
+
         else:
             encoded_indices = current_index.replace(' ','')
         
         LOGGER.info(f"Fetching data for index: {current_index} for year {current_year}")
 
-        # Construct the API URL for the current index
         api_url = f"https://www.idx.co.id/secondary/get/StockData/GetStockUploader?typeIndex={encoded_indices}&year={current_year}&table=stockIndex&locale=id"
-        response = REQUESTER.fetch_url(api_url)
+        response = requester.fetch_url(api_url)
+
         if response == False:
             LOGGER.warning("Error accesing api url.") 
             remaining_indices.pop(0)
             continue 
 
-        # Parse the JSON response
         datas = json.loads(response)
         
-        # Get data result 
         data_results = datas.get('Results')
+
         if not data_results:
             LOGGER.info(f"No data found for index: {current_index}. Removing and continuing")
             remaining_indices.pop(0)
@@ -153,56 +160,71 @@ def get_zip_files():
         # Extract latest file
         latest_result = data_results[0]
         original_file_name = latest_result.get('AttachmentName')
+
         if not original_file_name:
             remaining_indices.pop(0)
             continue
 
         # Proceed with download for new file
-        url_to_download = latest_result.get('AttachmentUrl')
-        full_url = base_url + url_to_download
+        url_to_download = latest_result.get('AttachmentUrl').replace('\\', '/')
+        full_url = base_url + quote(url_to_download, safe='/:?&=')
         LOGGER.info(f"Downloading file: {full_url}")
 
-        success = REQUESTER.download_file(full_url, os.path.join(save_dir, original_file_name))
-        
-        if success:
-            indices_found_in_zip = set()
-            extracted_files = REQUESTER.get_unzip_files(save_dir, original_file_name)
+        success = requester.download_file(full_url, os.path.join(save_dir, original_file_name))
 
-            # Check excel files that contains indices list
-            for excel_file in extracted_files:
-                # Special case for idxvesta28 and sminfra18
-                if 'INFOVESTA28' in excel_file:
-                    indices_found_in_zip.add('IDXVESTA28')
-                elif 'SMinfra18' in excel_file:
-                    indices_found_in_zip.add('SMINFRA18') 
+        if not success:
+            failed_item = {
+                'current_index': current_index, 
+                'url': full_url
+            }
 
-                for index_to_check in remaining_indices:
-                    if index_to_check in excel_file:
-                        indices_found_in_zip.add(index_to_check)
-            
-            LOGGER.info(f"Downloaded zip for '{current_index}'. It covers: {list(indices_found_in_zip)}")
-            
-            # If index excel did not found, add to indices_found_in_zip then can be drop
-            if not indices_found_in_zip:
-                LOGGER.info(f"Zip for {current_index} downloaded, but its contents did not match any remaining indices")
-                content_mismatch_failures.append(current_index)
-                remaining_indices.pop(0)
-
-            # Drop any indices list already found
-            remaining_indices = [indices for indices in remaining_indices if indices not in indices_found_in_zip]
-
-        else:
-            # If download failed, just remove the one we tried
+            download_failures.append(failed_item)
             remaining_indices.pop(0)
+            continue 
+
+        indices_found_in_zip = set()
+        extracted_files = requester.get_unzip_files(save_dir, original_file_name)
+
+        # Check excel files that contains indices list
+        for excel_file in extracted_files:
+            # Special case for idxvesta28 and sminfra18
+            if 'INFOVESTA28' in excel_file:
+                indices_found_in_zip.add('IDXVESTA28')
+
+            elif 'SMinfra18' in excel_file:
+                indices_found_in_zip.add('SMINFRA18') 
+
+            for index_to_check in remaining_indices:
+                if index_to_check in excel_file:
+                    indices_found_in_zip.add(index_to_check)
+        
+        LOGGER.info(f"Downloaded zip for '{current_index}'. It covers: {list(indices_found_in_zip)}")
+        
+        # If index excel did not found, add to indices_found_in_zip then can be drop
+        if not indices_found_in_zip:
+            LOGGER.info(f"Zip for {current_index} downloaded, but its contents did not match any remaining indices")
+            content_mismatch_failures.append(current_index)
+            remaining_indices.pop(0)
+
+        # Drop any indices list already found
+        remaining_indices = [indices for indices in remaining_indices if indices not in indices_found_in_zip]
 
         LOGGER.info(f"{len(remaining_indices)} indices remaining: {remaining_indices}")
 
-        # Random sleep to avoid hitting the server too hard
         random_sleep = random.uniform(3, 12)
         time.sleep(random_sleep)
     
+    if download_failures:
+        failed_indices = [
+            failed['current_index'] 
+            for failed in download_failures
+        ]
+        
+        LOGGER.warning(f"Failed to download index files for: {failed_indices}")
+
     if not content_mismatch_failures:
         LOGGER.info("All indices were successfully processed")
+
     else:
          LOGGER.info(f"The following indices were downloaded, but contents did not match any expected index names: {content_mismatch_failures}")
 

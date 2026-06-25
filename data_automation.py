@@ -1,20 +1,28 @@
 from supabase   import create_client
 from dotenv     import load_dotenv
 
+from os import getenv
+from pathlib import Path
+
 import pandas as pd
 import zipfile
-import os
+import time 
 
 
 load_dotenv()
 
 # Fetch company name data from idx_company_profile data in db
-URL_SUPABASE = os.environ.get("SUPABASE_URL")
-KEY_SUPABASE = os.environ.get("SUPABASE_KEY")
+URL_SUPABASE = getenv("SUPABASE_URL")
+KEY_SUPABASE = getenv("SUPABASE_KEY")
 SUPABASE_CLIENT = create_client(URL_SUPABASE, KEY_SUPABASE)
 
 IDX_DATA = SUPABASE_CLIENT.table("idx_company_profile").select("symbol","company_name").execute()
 IDX_DATA = pd.DataFrame(IDX_DATA.data)
+
+SOURCE_DATA_DIR = Path("source_data")
+EXTRACTED_DATA_DIR = SOURCE_DATA_DIR / "extracted_data"
+COMPANY_LIST_DIR = Path("company_list")
+CHECK_DF_PATH = Path("check_df.csv")
 
 
 def delete_all_files(directory_path: str) -> str:
@@ -27,21 +35,23 @@ def delete_all_files(directory_path: str) -> str:
     Returns:
         str: Confirmation message indicating that all files have been deleted.
     """
-    if not os.path.exists(directory_path):
+    directory = Path(directory_path)
+
+    if not directory.exists():
         return f"Directory {directory_path} does not exist. Nothing to delete"
 
-    # List all files in the directory
-    for filename in os.listdir(directory_path):
-        file_path = os.path.join(directory_path, filename)
+    for file_path in directory.iterdir():
         try:
             # Check if it is a file and delete it
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+            if file_path.is_file():
+                file_path.unlink()
+
             # Optionally, delete subdirectories and their contents
-            elif os.path.isdir(file_path):
-                os.rmdir(file_path)
-        except Exception as e:
-            print(f"Failed to delete {file_path}. Reason: {e}")
+            elif file_path.is_dir():
+                file_path.rmdir()
+
+        except Exception as error:
+            print(f"Failed to delete {file_path}. Reason: {error}")
 
     return(f"All files in {directory_path} have been deleted.")
 
@@ -54,24 +64,25 @@ def unzip_file(file_directory: str, extract_directory: str):
         file_directory (str): Directory containing the zip files.
         extract_directory (str): Directory where the files will be extracted.
     """
-    # Get list of files in the specified directory
-    files = os.listdir(file_directory)
+    file_directory = Path(file_directory)
+    extract_directory = Path(extract_directory)
+    extract_directory.mkdir(parents=True, exist_ok=True)
 
     # Filter only zip files
     zip_files = [
-        file for file in files 
-        if os.path.isfile(os.path.join(file_directory, file)) and file.endswith('.zip')
+        file for file in file_directory.iterdir()
+        if file.is_file() and file.suffix == ".zip"
     ]
-    print(f"Check data zip files: {zip_files[:2]}")
+    
+    print(f"Check data zip files: {[file.name for file in zip_files[:2]]}")
 
     for zip_file in zip_files:
-        zip_path = os.path.join(file_directory, zip_file)
-
         try:
-            with zipfile.ZipFile(zip_path, "r") as zip_ref:
+            with zipfile.ZipFile(zip_file, "r") as zip_ref:
                 zip_ref.extractall(extract_directory)
+
         except Exception as error:
-            print(f"Failed to unzip file: {zip_path}. Reason: {error}")
+            print(f"Failed to unzip file: {zip_file}. Reason: {error}")
     
     print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
 
@@ -111,58 +122,75 @@ def run_indices_update():
     Main function to run the indices update process.
     Unzips the downloaded files, extracts company lists, and saves them.
     """
-    if not os.path.isdir("source_data"):
+    if not SOURCE_DATA_DIR.is_dir():
         print("No source_data directory. Skipping indices update")
         return
 
-    zip_files = [file for file in os.listdir("source_data") if file.endswith(".zip")]
+    zip_files = [
+        file 
+        for file in SOURCE_DATA_DIR.iterdir()
+        if file.is_file() and file.suffix == ".zip"
+    ]
+    
     if not zip_files:
         print("No zip files in source_data. Skipping indices update")
         return
 
     # Unzip file
-    unzip_file("source_data", "source_data/extracted_data")
+    unzip_file(SOURCE_DATA_DIR, EXTRACTED_DATA_DIR)
 
-    # Extract Symbol
-    files = os.listdir("source_data/extracted_data")
-
-    indices_list = ["IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
-                    'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
-                    "SMinfra18", "JII70", "ECONOMIC30", "INFOVESTA28"]
+    indices_list = [
+        "IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
+        'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
+        "SMinfra18", "JII70", "ECONOMIC30", "INFOVESTA28"
+    ]
 
     # Filter only zip files
     excel_files = [
-        file for file in files 
-        if os.path.isfile(os.path.join("source_data/extracted_data", file)) and file.endswith('.xlsx')
+        file for file in EXTRACTED_DATA_DIR.iterdir()
+        if file.is_file() and file.suffix == ".xlsx"
     ]
-    print(f"Check data excel files: {excel_files}")
+
+    print(f"Check data excel files: {[file.name for file in excel_files]}")
 
     # Make sure company list dir
-    os.makedirs("company_list", exist_ok=True)
+    COMPANY_LIST_DIR.mkdir(exist_ok=True)
 
     saved_to_csv = 0 
+    
     for indices in indices_list:
         try:
-            file = [s for s in excel_files if indices in s][0]
-            print(f"Check data file: {file}")
+            file = [
+                excel_file 
+                for excel_file in excel_files 
+                if indices in excel_file.name and "Mayor" in excel_file.name
+            ][0]
 
-            data = company_list_extraction(f"source_data/extracted_data/{file}", IDX_DATA)
-            print(f"Check data company list extracted: {data.head()}")
+            print(f"Check data file: {file.name}")
+
+            data = company_list_extraction(
+                file, IDX_DATA
+            )
+
+            print(f"Check data company list extracted: {data.head()} \n")
+            data.to_csv(CHECK_DF_PATH, index=False)
 
             # special case for idxvesta and sminfra to saved as csv
             if indices == 'INFOVESTA28': 
                 indices = 'IDXVESTA28'
+
             elif indices == 'SMinfra18':
                 indices = 'SMINFRA18'
 
-            data.to_csv(f"company_list/companies_list_{indices.lower().replace(' ','')}.csv", index=False)
+            output_path = COMPANY_LIST_DIR / f"companies_list_{indices.lower().replace(' ','')}.csv"
+            data.to_csv(output_path, index=False)
             saved_to_csv += 1 
 
             print(f"Company list for {indices} index already extracted")
-        except:
-            print(f"No new update for {indices} indices")
+        
+        except Exception as error:
+            print(f"No new update for {indices} indices. Reason: {error}")
 
-    print("----------------------------------------------------------")
     return saved_to_csv > 0 
 
 
@@ -171,22 +199,21 @@ def get_all_indices() -> dict :
     Fetches all indices data from the 'company_list' directory, combines them into a single DataFrame,
     and groups the data by 'symbol' to create a mapping of symbols to their associated indices.
     """
-    company_list_dir = "company_list"
     all_indices_data = []
 
     # Check if the directory exists and has files
-    if os.path.exists(company_list_dir) and os.listdir(company_list_dir):
-        for filename in os.listdir(company_list_dir):
-            if filename.endswith(".csv"):
+    if COMPANY_LIST_DIR.exists() and any(COMPANY_LIST_DIR.iterdir()):
+        for file_path in COMPANY_LIST_DIR.iterdir():
+            if file_path.is_file() and file_path.suffix == ".csv":
                 # Extract the index name from the filename
-                index_name = filename.split('_')[-1].split('.')[0].upper()
+                index_name = file_path.stem.split('_')[-1].upper()
                 
-                file_path = os.path.join(company_list_dir, filename)
                 df = pd.read_csv(file_path)
                 
                 # Add a new column for the index name
                 df['index'] = index_name
                 all_indices_data.append(df)
+
     else:
         print("No CSV files found in 'company_list' directory. Exiting.")
         exit()
@@ -220,6 +247,8 @@ def push_to_supabase(grouped_indices: dict):
                 .execute()
         )
 
+        time.sleep(2)
+
         count = response.count or len(response.data or [])
         print(f"Updated {symbol}: {count} row(s)")
 
@@ -236,4 +265,6 @@ if __name__ == '__main__':
 
     # Push to db
     grouped_indices = get_all_indices()
+    print(grouped_indices)
+
     push_to_supabase(grouped_indices)
