@@ -2502,3 +2502,7 @@
 2026-08-05 12:57:34,049 - INFO: Program started
 2026-08-06 12:58:56,750 - INFO: Program started
 2026-08-07 11:49:13,369 - INFO: Program started
+2026-08-10 11:51:35,063 - INFO: Program started
+2026-08-10 11:51:35,496 - ERROR: 
+1 Failed download:
+2026-08-10 11:51:35,496 - ERROR: ['^STI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
