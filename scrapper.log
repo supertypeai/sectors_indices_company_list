@@ -2506,3 +2506,4 @@
 2026-08-10 11:51:35,496 - ERROR: 
 1 Failed download:
 2026-08-10 11:51:35,496 - ERROR: ['^STI']: YFPricesMissingError('possibly delisted; no price data found  (period=1d)')
+2026-08-11 11:48:18,715 - INFO: Program started
