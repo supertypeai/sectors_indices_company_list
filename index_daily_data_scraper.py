@@ -14,6 +14,47 @@ import logging
 from importlib import reload
 logging.basicConfig(level=logging.ERROR)
 
+# Cloudflare accepts some TLS fingerprints and rejects the rest, and that set rotates over
+# time, so try a short ladder instead of pinning one.
+IDX_FINGERPRINTS = ["safari17_0", "chrome124", "chrome131"]
+IDX_HEADERS = {
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": "https://www.idx.co.id/",
+}
+
+
+def fetch_idx_json(url, proxies=None, timeout=30):
+    """GET an IDX JSON endpoint, trying each browser TLS fingerprint until one is served.
+
+    Cloudflare answers plain urllib (and some fingerprints) with a 403 challenge page, so
+    the body must be JSON too: today's block returns HTML with a 200 more often than not.
+    """
+    try:
+        from curl_cffi import requests as cffi_requests
+    except ImportError:
+        cffi_requests = None
+
+    if cffi_requests is None:
+        ssl._create_default_https_context = ssl._create_unverified_context
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            return json.loads(response.read().decode())
+
+    tried = []
+    for imp in IDX_FINGERPRINTS:
+        session = cffi_requests.Session(impersonate=imp, proxies=proxies, verify=False)
+        try:
+            response = session.get(url, headers=IDX_HEADERS, timeout=timeout)
+            if response.status_code == 200 and response.text.lstrip().startswith("{"):
+                return json.loads(response.text)
+            tried.append(f"{imp}: HTTP {response.status_code}")
+        except Exception as error:
+            tried.append(f"{imp}: {type(error).__name__}")
+        finally:
+            session.close()
+
+    raise RuntimeError(f"IDX blocked every fingerprint ({'; '.join(tried)})")
+
 def initiate_logging(LOG_FILENAME):
     reload(logging)
 
@@ -69,13 +110,7 @@ opener = urllib.request.build_opener(proxy_support)
 urllib.request.install_opener(opener)
 
 # Fetch the URL
-try:
-    with urllib.request.urlopen(url) as response:
-        content = response.read().decode()
-except Exception as e:
-    print(f"Error fetching URL: {e}")
-
-data = json.loads(content)
+data = fetch_idx_json(url, {"http": proxy, "https": proxy} if proxy else None)
 df = pd.DataFrame(data['data'])
 
 idx_name = pd.read_csv("index_name.csv")

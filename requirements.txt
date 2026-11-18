@@ -5,3 +5,4 @@ requests==2.32.3
 supabase==2.16.0
 yfinance==0.2.66
 openpyxl 
+curl_cffi==0.15.0
