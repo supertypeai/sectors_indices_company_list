@@ -15,8 +15,9 @@ from importlib import reload
 logging.basicConfig(level=logging.ERROR)
 
 # Cloudflare accepts some TLS fingerprints and rejects the rest, and that set rotates over
-# time, so try a short ladder instead of pinning one.
-IDX_FINGERPRINTS = ["safari17_0", "chrome124", "chrome131"]
+# time. Measured 19 Nov: only these two pass every IDX endpoint reliably; the chrome
+# variants return 200/403 intermittently on the same URL, so they are not used.
+IDX_FINGERPRINTS = ["safari17_0", "safari17_2_ios"]
 IDX_HEADERS = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "X-Requested-With": "XMLHttpRequest",
@@ -40,18 +41,24 @@ def fetch_idx_json(url, proxies=None, timeout=30):
         with urllib.request.urlopen(url, timeout=timeout) as response:
             return json.loads(response.read().decode())
 
+    # Proxy first (it hides the runner IP), then a direct connection: the proxy stalls often
+    # enough that a healthy direct route is worth trying before giving up.
+    routes = [proxies, None] if proxies else [None]
+
     tried = []
     for imp in IDX_FINGERPRINTS:
-        session = cffi_requests.Session(impersonate=imp, proxies=proxies, verify=False)
-        try:
-            response = session.get(url, headers=IDX_HEADERS, timeout=timeout)
-            if response.status_code == 200 and response.text.lstrip().startswith("{"):
-                return json.loads(response.text)
-            tried.append(f"{imp}: HTTP {response.status_code}")
-        except Exception as error:
-            tried.append(f"{imp}: {type(error).__name__}")
-        finally:
-            session.close()
+        for route in routes:
+            where = "proxy" if route else "direct"
+            session = cffi_requests.Session(impersonate=imp, proxies=route, verify=False)
+            try:
+                response = session.get(url, headers=IDX_HEADERS, timeout=timeout)
+                if response.status_code == 200 and response.text.lstrip().startswith("{"):
+                    return json.loads(response.text)
+                tried.append(f"{imp}/{where}: HTTP {response.status_code}")
+            except Exception as error:
+                tried.append(f"{imp}/{where}: {type(error).__name__}")
+            finally:
+                session.close()
 
     raise RuntimeError(f"IDX blocked every fingerprint ({'; '.join(tried)})")
 
