@@ -15,9 +15,10 @@ from importlib import reload
 logging.basicConfig(level=logging.ERROR)
 
 # Cloudflare accepts some TLS fingerprints and rejects the rest, and that set rotates over
-# time. Measured 19 Nov: only these two pass every IDX endpoint reliably; the chrome
-# variants return 200/403 intermittently on the same URL, so they are not used.
-IDX_FINGERPRINTS = ["safari17_0", "safari17_2_ios"]
+# time. Verified 20 Nov on 7 IDX endpoints + 8x soak: firefox133 and tor145 pass reliably;
+# the 19 Nov winners (safari17_0, safari17_2_ios) are 403 today but kept at the bottom so a
+# rotation back costs one extra try instead of a failed run.
+IDX_FINGERPRINTS = ["firefox133", "tor145", "safari17_0", "safari17_2_ios"]
 IDX_HEADERS = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "X-Requested-With": "XMLHttpRequest",
