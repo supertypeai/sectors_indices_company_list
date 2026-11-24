@@ -2,66 +2,17 @@ import pandas as pd
 import yfinance as yf
 from supabase import create_client
 from datetime import datetime
-import ssl
-import urllib.request
 import os
 from dotenv import load_dotenv
 import json
+
+from idx_fetch import idx_get
 
 load_dotenv()
 
 import logging
 from importlib import reload
 logging.basicConfig(level=logging.ERROR)
-
-# Cloudflare accepts some TLS fingerprints and rejects the rest, and that set rotates over
-# time. Verified 20 Nov on 7 IDX endpoints + 8x soak: firefox133 and tor145 pass reliably;
-# the 19 Nov winners (safari17_0, safari17_2_ios) are 403 today but kept at the bottom so a
-# rotation back costs one extra try instead of a failed run.
-IDX_FINGERPRINTS = ["firefox133", "tor145", "safari17_0", "safari17_2_ios"]
-IDX_HEADERS = {
-    "Accept": "application/json, text/javascript, */*; q=0.01",
-    "X-Requested-With": "XMLHttpRequest",
-    "Referer": "https://www.idx.co.id/",
-}
-
-
-def fetch_idx_json(url, proxies=None, timeout=30):
-    """GET an IDX JSON endpoint, trying each browser TLS fingerprint until one is served.
-
-    Cloudflare answers plain urllib (and some fingerprints) with a 403 challenge page, so
-    the body must be JSON too: today's block returns HTML with a 200 more often than not.
-    """
-    try:
-        from curl_cffi import requests as cffi_requests
-    except ImportError:
-        cffi_requests = None
-
-    if cffi_requests is None:
-        ssl._create_default_https_context = ssl._create_unverified_context
-        with urllib.request.urlopen(url, timeout=timeout) as response:
-            return json.loads(response.read().decode())
-
-    # Proxy first (it hides the runner IP), then a direct connection: the proxy stalls often
-    # enough that a healthy direct route is worth trying before giving up.
-    routes = [proxies, None] if proxies else [None]
-
-    tried = []
-    for imp in IDX_FINGERPRINTS:
-        for route in routes:
-            where = "proxy" if route else "direct"
-            session = cffi_requests.Session(impersonate=imp, proxies=route, verify=False)
-            try:
-                response = session.get(url, headers=IDX_HEADERS, timeout=timeout)
-                if response.status_code == 200 and response.text.lstrip().startswith("{"):
-                    return json.loads(response.text)
-                tried.append(f"{imp}/{where}: HTTP {response.status_code}")
-            except Exception as error:
-                tried.append(f"{imp}/{where}: {type(error).__name__}")
-            finally:
-                session.close()
-
-    raise RuntimeError(f"IDX blocked every fingerprint ({'; '.join(tried)})")
 
 def initiate_logging(LOG_FILENAME):
     reload(logging)
@@ -108,17 +59,10 @@ date = datetime.strptime(scrape_daily["date"].unique()[0], "%Y-%m-%d").strftime(
 # Replace this with the URL you want to fetch
 url = f"https://www.idx.co.id/primary/TradingSummary/GetIndexSummary?date={date}&length=9999&start=0"
 
-# Allow unverified SSL
-ssl._create_default_https_context = ssl._create_unverified_context
-
-# Set up proxy
 proxy = os.environ.get("proxy")
-proxy_support = urllib.request.ProxyHandler({"http": proxy, "https": proxy})
-opener = urllib.request.build_opener(proxy_support)
-urllib.request.install_opener(opener)
 
 # Fetch the URL
-data = fetch_idx_json(url, {"http": proxy, "https": proxy} if proxy else None)
+data = json.loads(idx_get(url, proxies={"http": proxy, "https": proxy} if proxy else None))
 df = pd.DataFrame(data['data'])
 
 idx_name = pd.read_csv("index_name.csv")
@@ -141,9 +85,14 @@ scrape_daily['date'] = pd.to_datetime(scrape_daily['date'])
 
 scrape_daily["date"] = scrape_daily["date"].astype('str')
 
-# Push to database
-for sub_sector in range(0,scrape_daily.shape[0]):
-    try:
-        supabase.table("index_daily_data").insert(dict(scrape_daily.iloc[sub_sector])).execute()
-    except:
-        logging.error(f"Failed to update description for {sub_sector}.")
+# Push to database. upsert, not insert: re-running a date already loaded must update
+# instead of conflicting on every row (the old per-row insert swallowed the error).
+# One statement for the whole date: a duplicate (index_code, date) pair would make Postgres
+# reject the whole batch (ON CONFLICT cannot affect a row twice).
+scrape_daily = scrape_daily.drop_duplicates(subset=['index_code', 'date'])
+records = scrape_daily.to_dict(orient='records')
+try:
+    supabase.table("index_daily_data").upsert(records).execute()
+except Exception as error:
+    logging.error(f"Failed to upsert {len(records)} rows: {error}")
+    raise

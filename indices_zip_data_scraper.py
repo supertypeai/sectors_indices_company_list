@@ -4,12 +4,13 @@ from urllib.parse import quote
 
 import os 
 import logging 
-import ssl
-import urllib.request
 import json 
 import time 
 import random 
+import sys
 import zipfile
+
+from idx_fetch import idx_get
 
 
 logging.basicConfig(
@@ -34,17 +35,11 @@ class ProxyRequester:
         Args:
             proxy (str, optional): the proxy to be used. Defaults to None. Example: 'brd-customer-xxx-zone-xxx:xxx@brd.superproxy.io:xxx'
         """
-
-        # Set up SSL context to unverified
-        ssl._create_default_https_context = ssl._create_unverified_context
-
-        proxy_support = urllib.request.ProxyHandler({'http': proxy,'https': proxy})
-        opener = urllib.request.build_opener(proxy_support)
-        urllib.request.install_opener(opener)
+        self.proxies = {"http": proxy, "https": proxy} if proxy else None
 
     def fetch_url(self, url) -> str:
         """
-        Fetches the content of a URL using the installed opener.
+        Fetches the content of a URL.
         
         Args:
             url (str): The URL to fetch.
@@ -52,10 +47,8 @@ class ProxyRequester:
         Returns:
             str: The content of the URL as a string, or False if an error occurs.
         """
-        # Use the installed opener to fetch the URL
         try:
-            with urllib.request.urlopen(url) as response:
-                return response.read().decode()
+            return idx_get(url, proxies=self.proxies).decode()
             
         except Exception as error:
             print(f"Error fetching URL: {error}")
@@ -73,12 +66,7 @@ class ProxyRequester:
             bool: True if the file was downloaded and saved successfully, False otherwise.
         """
         try: 
-            request = urllib.request.Request(url, headers={
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            })
-
-            with urllib.request.urlopen(request) as response:
-                file_content = response.read()
+            file_content = idx_get(url, kind="zip", proxies=self.proxies)
 
             with open(saved_dir, 'wb') as file_zip:
                 file_zip.write(file_content)
@@ -217,6 +205,11 @@ def get_zip_files():
 
     else:
          LOGGER.info(f"The following indices were downloaded, but contents did not match any expected index names: {content_mismatch_failures}")
+
+    # Exit non-zero so the monthly workflow stops instead of letting data_automation.py
+    # re-push the stale company_list CSVs (that is how it stayed green while broken).
+    if download_failures or content_mismatch_failures:
+        sys.exit(1)
 
 
 if __name__ == '__main__':
