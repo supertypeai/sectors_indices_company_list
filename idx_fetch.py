@@ -2,7 +2,9 @@
 
 Cloudflare fingerprints the caller: plain urllib/requests gets a challenge page (HTML,
 HTTP 403 or 200), and which browser fingerprint passes rotates every few days.
-Verified 24 Nov 2026: firefox133 serves both the JSON endpoints and the zip downloads.
+Verified 24 Nov 2026: firefox133 serves the JSON endpoints, the zip/xlsx/pdf downloads
+and the HTML pages. `kind` picks the body check:
+  json -> starts with "{"      zip -> starts with "PK"      raw -> just not a challenge page
 """
 import time
 
@@ -26,13 +28,26 @@ IDX_HEADERS = {
 IDX_FINGERPRINTS = ["firefox133", "tor145", "safari17_0", "safari17_2_ios"]
 IDX_ROUNDS = 2
 IDX_BACKOFF_SECONDS = 5
+# Cloudflare's interstitial, which arrives with either 403 or 200
+_CHALLENGE_MARKERS = (
+    b"Just a moment",
+    b"cf-browser-verification",
+    b"cf_chl_opt",
+    b"Attention Required",
+    b"Enable JavaScript and cookies to continue",
+)
 
 
 def _looks_right(response, kind: str) -> bool:
-    """A blocked request comes back as HTML, so the body shape is the real status."""
+    """A blocked request comes back as a challenge page, so the body shape is the real status."""
+    head = response.content[:4000]
+    if any(marker in head for marker in _CHALLENGE_MARKERS):
+        return False
     if kind == "zip":
         return response.content[:2] == b"PK"
-    return response.text.lstrip().startswith("{")
+    if kind == "json":
+        return response.text.lstrip().startswith("{")
+    return bool(response.content)   # "raw": html/xlsx/pdf - just not empty, not a challenge
 
 
 def _plain(url: str, proxies, timeout, kind: str) -> bytes:
@@ -59,6 +74,9 @@ def idx_get(url: str, kind: str = "json", proxies=None, timeout=(10, 60)) -> byt
     enough that a healthy direct connection is worth trying before giving up.
     Raises RuntimeError listing what every attempt returned.
     """
+    if kind not in ("json", "zip", "raw"):
+        raise ValueError(f"unknown kind {kind!r}, expected json|zip|raw")
+
     try:
         from curl_cffi import requests as cffi_requests
     except ImportError:
