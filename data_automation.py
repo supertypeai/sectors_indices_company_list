@@ -1,12 +1,14 @@
 from supabase   import create_client
 from dotenv     import load_dotenv
 
+from datetime import datetime, timezone
 from os import getenv
 from pathlib import Path
 
 import pandas as pd
 import zipfile
-import time 
+
+from idx_announcement import EXPECTED_SIZE, index_field, newest_effective, normalise, read_sheet_path
 
 
 load_dotenv()
@@ -14,16 +16,23 @@ load_dotenv()
 # Fetch company name data from idx_company_profile data in db
 URL_SUPABASE = getenv("SUPABASE_URL")
 KEY_SUPABASE = getenv("SUPABASE_KEY")
-SUPABASE_CLIENT = create_client(URL_SUPABASE, KEY_SUPABASE)
+# Guarded so the module stays importable (and testable) without credentials.
+SUPABASE_CLIENT = create_client(URL_SUPABASE, KEY_SUPABASE) if URL_SUPABASE and KEY_SUPABASE else None
 
-IDX_DATA = SUPABASE_CLIENT.table("idx_company_profile").select("symbol","company_name").execute()
-IDX_DATA = pd.DataFrame(IDX_DATA.data)
+
+def load_profile(client) -> pd.DataFrame:
+    """symbol/company_name for every listed company; empty frame without credentials."""
+    if client is None:
+        return pd.DataFrame(columns=["symbol", "company_name"])
+    return pd.DataFrame(client.table("idx_company_profile").select("symbol", "company_name").execute().data)
+
+
+IDX_DATA = load_profile(SUPABASE_CLIENT)
 
 SOURCE_DATA_DIR = Path("source_data")
 EXTRACTED_DATA_DIR = SOURCE_DATA_DIR / "extracted_data"
 COMPANY_LIST_DIR = Path("company_list")
 CHECK_DF_PATH = Path("check_df.csv")
-
 
 def delete_all_files(directory_path: str) -> str:
     """ 
@@ -87,35 +96,32 @@ def unzip_file(file_directory: str, extract_directory: str):
     print(f"Finish Unzip file from {file_directory} folder into {extract_directory} folder")
 
 
-def company_list_extraction(data_path: str, idx_data: pd.DataFrame) -> pd.DataFrame:
+def company_list_extraction(data_path: str, idx_data: pd.DataFrame, expected_count: int | None = None) -> pd.DataFrame:
     """ 
     Extracts company list from the provided Excel file and merges it with idx_data.
 
     Args:
         data_path (str): Path to the Excel file containing company data.
         idx_data (pd.DataFrame): DataFrame containing idx company profile data.
+        expected_count (int, optional): Constituent count IDX guarantees for this index.
     
     Returns:
         pd.DataFrame: DataFrame containing the extracted company symbols.
+
+    Raises:
+        ValueError: when the parsed or merged count does not match expected_count.
     """
-    df = pd.read_excel(data_path, skiprows=7).iloc[1:,2:]
+    parsed_symbols = read_sheet_path(data_path)["symbols"]
 
-    # Convert the column to numeric, setting errors='coerce' will convert non-numeric values to NaN
-    df["Rasio Free Float"] = pd.to_numeric(df["Rasio Free Float"], errors='coerce')
+    if expected_count is not None and len(parsed_symbols) != expected_count:
+        raise ValueError(f"parsed {len(parsed_symbols)} constituents, IDX guarantees {expected_count}")
 
-    # Drop rows with NaN values in the specified column
-    df.dropna(subset=["Rasio Free Float"], inplace= True)
+    df = pd.DataFrame({"symbol": sorted(parsed_symbols)}).merge(idx_data, on="symbol")
 
-    df.rename(columns={"Kode":'symbol'}, inplace=True)
-
-    df["symbol"] = df['symbol'].apply(lambda x: x + ".JK")
-
-    df = df[["symbol"]]
-
-    df = df.merge(idx_data,on="symbol")
+    if missing := sorted(parsed_symbols - set(df["symbol"])):
+        raise ValueError(f"{len(missing)} symbol(s) missing from idx_company_profile: {missing}")
 
     return df
-
 
 def run_indices_update():
     """ 
@@ -124,7 +130,7 @@ def run_indices_update():
     """
     if not SOURCE_DATA_DIR.is_dir():
         print("No source_data directory. Skipping indices update")
-        return
+        return set()
 
     zip_files = [
         file 
@@ -134,7 +140,7 @@ def run_indices_update():
     
     if not zip_files:
         print("No zip files in source_data. Skipping indices update")
-        return
+        return set()
 
     # Unzip file
     unzip_file(SOURCE_DATA_DIR, EXTRACTED_DATA_DIR)
@@ -142,7 +148,7 @@ def run_indices_update():
     indices_list = [
         "IDX30",'LQ45','KOMPAS100', "IDX BUMN20",'IDX HIDIV20', 
         'IDX G30','IDX V30', "IDX Q30", "IDX ESGL", "SRIKEHATI", 
-        "SMinfra18", "JII70", "ECONOMIC30", "INFOVESTA28"
+        "SMinfra18", "JII70", "ECONOMIC30", "IDXVESTA28"
     ]
 
     # Filter only zip files
@@ -156,56 +162,61 @@ def run_indices_update():
     # Make sure company list dir
     COMPANY_LIST_DIR.mkdir(exist_ok=True)
 
-    saved_to_csv = 0 
-    
+    # Only indices parsed successfully this run may be reconciled in the DB: the writer also
+    # removes stale memberships, so an unparsed index must stay untouched.
+    updated_codes = set()
+    failures = {}
+
     for indices in indices_list:
         try:
             matching_files = [
-                excel_file 
-                for excel_file in excel_files 
-                if f"{indices} -" in excel_file.name
+                excel_file
+                for excel_file in excel_files
+                if index_field(excel_file.name) == normalise(indices)
             ]
             
-            mayor_files = [
-                excel_file 
-                for excel_file in matching_files 
-                if "Mayor" in excel_file.name
-            ]
-            
-            minor_files = [
-                excel_file 
-                for excel_file in matching_files 
-                if "Minor" in excel_file.name
-            ]
-            
-            file = (mayor_files or minor_files)[0]
+            # Newest effective announcement wins: a later insidental/revisi supersedes the
+            # Mayor/Minor file carrying the same index name.
+            if not matching_files:
+                raise ValueError("no announcement sheet for this index")
+            candidates = [{**read_sheet_path(path), "path": path} for path in matching_files]
+            effective, upcoming = newest_effective(candidates)
+            if effective is None:
+                when = upcoming["start"] if upcoming else "unknown date"
+                raise ValueError(f"no announcement effective yet, next one starts {when}")
+            file = effective["path"]
 
-            print(f"Check data file: {file.name}")
+            print(f"Check data file: {file.name} ({len(candidates)} candidate(s))")
 
-            data = company_list_extraction(
-                file, IDX_DATA
-            )
+            try:
+                expected = EXPECTED_SIZE[normalise(indices)]
+            except KeyError:
+                raise ValueError(f"{indices} is not in EXPECTED_SIZE") from None
+            data = company_list_extraction(file, IDX_DATA, expected)
 
             print(f"Check data company list extracted: {data.head()} \n")
             data.to_csv(CHECK_DF_PATH, index=False)
 
-            # special case for idxvesta and sminfra to saved as csv
-            if indices == 'INFOVESTA28': 
-                indices = 'IDXVESTA28'
-
-            elif indices == 'SMinfra18':
+            # special case for sminfra to save as csv
+            if indices == 'SMinfra18':
                 indices = 'SMINFRA18'
 
             output_path = COMPANY_LIST_DIR / f"companies_list_{indices.lower().replace(' ','')}.csv"
             data.to_csv(output_path, index=False)
-            saved_to_csv += 1 
+            updated_codes.add(indices.replace(' ', '').upper())
 
             print(f"Company list for {indices} index already extracted")
         
         except Exception as error:
-            print(f"No new update for {indices} indices. Reason: {error}")
+            failures[indices] = str(error)
+            print(f"FAILED {indices}: {error}")
 
-    return saved_to_csv > 0 
+    # A partial run silently pushed a subset before; every tracked index must parse, otherwise
+    # the source layout changed and a human has to look.
+    if failures:
+        raise SystemExit(f"{len(failures)}/{len(indices_list)} indices failed: {failures}")
+
+    return updated_codes
 
 
 def get_all_indices() -> dict :
@@ -229,8 +240,7 @@ def get_all_indices() -> dict :
                 all_indices_data.append(df)
 
     else:
-        print("No CSV files found in 'company_list' directory. Exiting.")
-        exit()
+        raise SystemExit("no CSV files in company_list, refusing to reconcile")
 
     combined_df = pd.concat(all_indices_data, ignore_index=True)
     print(f'length before remove duplicate check: {len(combined_df)}')
@@ -243,42 +253,84 @@ def get_all_indices() -> dict :
     return grouped_indices.to_dict()
 
 
-def push_to_supabase(grouped_indices: dict):
+def push_to_supabase(grouped_indices: dict, managed_codes: set[str]):
     """ 
-    Pushes the grouped indices data to the Supabase database.
+    Reconciles index membership in the DB for the codes parsed this run.
+
+    Adding only is not enough: a symbol that leaves an index must lose that membership, so
+    every managed code is set from the CSV list and removed from everyone else. Codes that
+    were not parsed this run are never touched.
 
     Args:
-        grouped_indices (pd.DataFrame): DataFrame containing symbols and their associated indices.
+        grouped_indices (dict): symbol -> list of index codes, from company_list/*.csv.
+        managed_codes (set[str]): index codes parsed successfully this run.
     """
-    print("Start inserting data to db")
+    print(f"Start reconciling {len(managed_codes)} index code(s): {sorted(managed_codes)}")
 
-    for symbol, indices in grouped_indices.items():
-        response = (
-            SUPABASE_CLIENT
-                .table('idx_company_profile')
-                .update({'indices': indices})
-                .eq('symbol', symbol)
-                .execute()
-        )
+    current_rows = (
+        SUPABASE_CLIENT
+            .table('idx_company_profile')
+            .select('symbol,indices')
+            .execute()
+            .data or []
+    )
+    current = {row['symbol']: list(row.get('indices') or []) for row in current_rows}
 
-        time.sleep(2)
+    desired = {
+        symbol: {code for code in codes if code in managed_codes}
+        for symbol, codes in grouped_indices.items()
+    }
 
-        count = response.count or len(response.data or [])
-        print(f"Updated {symbol}: {count} row(s)")
+    # Refuse to delete anything when the post-state would not match IDX's guaranteed counts.
+    after = {symbol: (set(held) - managed_codes) | desired.get(symbol, set())
+             for symbol, held in current.items()}
+    for symbol, codes in desired.items():
+        after.setdefault(symbol, set(codes))
+    wrong = {
+        code: sum(1 for codes in after.values() if code in codes)
+        for code in managed_codes
+        if code in EXPECTED_SIZE
+        and sum(1 for codes in after.values() if code in codes) != EXPECTED_SIZE[code]
+    }
+    if wrong:
+        raise SystemExit(f"refusing to push, post-reconcile counts {wrong} != EXPECTED_SIZE")
 
+    changed = 0
+    for symbol, held in current.items():
+        target = (set(held) - managed_codes) | desired.get(symbol, set())
+        if target != set(held):
+            (
+                SUPABASE_CLIENT
+                    .table('idx_company_profile')
+                    .update({'indices': sorted(target),
+                             'updated_on': datetime.now(timezone.utc).isoformat()})
+                    .eq('symbol', symbol)
+                    .execute()
+            )
+            changed += 1
+            print(f"Updated {symbol}: removed {' '.join(sorted(set(held) - target)) or '-'} "
+                  f"added {' '.join(sorted(target - set(held))) or '-'}")
+
+    unknown = sorted(set(desired) - set(current))
+    if unknown:
+        print(f"WARNING {len(unknown)} symbol(s) in company_list missing from idx_company_profile: {unknown}")
+
+    print(f"Reconciled {changed} row(s)")
 
 if __name__ == '__main__':
+    if IDX_DATA.empty:
+        raise SystemExit("idx_company_profile returned no rows - check SUPABASE_URL / SUPABASE_KEY")
+
     # Update indices csv on company_list dir
-    updated = run_indices_update()
+    updated_codes = run_indices_update()
     delete_all_files("source_data/extracted_data")
     delete_all_files("source_data")
     
-    if not updated:
-        print("No new data processed. Skipping push to Supabase")
-        exit()
+    if not updated_codes:
+        raise SystemExit("no company list written, nothing pushed")
 
     # Push to db
     grouped_indices = get_all_indices()
     print(grouped_indices)
 
-    push_to_supabase(grouped_indices)
+    push_to_supabase(grouped_indices, updated_codes)

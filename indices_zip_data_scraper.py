@@ -10,6 +10,7 @@ import random
 import sys
 import zipfile
 
+from idx_announcement import index_field, normalise
 from idx_fetch import idx_get
 
 
@@ -132,7 +133,10 @@ def get_zip_files():
         response = requester.fetch_url(api_url)
 
         if response == False:
-            LOGGER.warning("Error accesing api url.") 
+            # A blocked listing (403/502) used to be a silent skip: every index dropped, no zip
+            # downloaded, exit 0. Count it so the run fails instead of looking healthy.
+            LOGGER.error(f"Listing request failed for {current_index}: blocked or unreachable")
+            download_failures.append(current_index)
             remaining_indices.pop(0)
             continue 
 
@@ -141,7 +145,8 @@ def get_zip_files():
         data_results = datas.get('Results')
 
         if not data_results:
-            LOGGER.info(f"No data found for index: {current_index}. Removing and continuing")
+            LOGGER.error(f"No upload listed for index: {current_index}")
+            download_failures.append(current_index)
             remaining_indices.pop(0)
             continue
 
@@ -150,6 +155,8 @@ def get_zip_files():
         original_file_name = latest_result.get('AttachmentName')
 
         if not original_file_name:
+            LOGGER.error(f"Listing for {current_index} has no attachment name")
+            download_failures.append(current_index)
             remaining_indices.pop(0)
             continue
 
@@ -165,21 +172,13 @@ def get_zip_files():
             remaining_indices.pop(0)
             continue 
 
-        indices_found_in_zip = set()
-        extracted_files = requester.get_unzip_files(save_dir, original_file_name)
-
-        # Check excel files that contains indices list
-        for excel_file in extracted_files:
-            # Special case for idxvesta28 and sminfra18
-            if 'INFOVESTA28' in excel_file:
-                indices_found_in_zip.add('IDXVESTA28')
-
-            elif 'SMinfra18' in excel_file:
-                indices_found_in_zip.add('SMINFRA18') 
-
-            for index_to_check in remaining_indices:
-                if index_to_check in excel_file:
-                    indices_found_in_zip.add(index_to_check)
+        # Coverage is decided by the sheet's own index field, not a substring of the file name:
+        # "IDX LQ45 Low Carbon Leader" contains "LQ45" but is a different index.
+        covered = {
+            index_field(sheet)
+            for sheet in requester.get_unzip_files(save_dir, original_file_name)
+        } - {None}
+        indices_found_in_zip = [index for index in remaining_indices if normalise(index) in covered]
         
         LOGGER.info(f"Downloaded zip for '{current_index}'. It covers: {list(indices_found_in_zip)}")
         
@@ -190,7 +189,7 @@ def get_zip_files():
             remaining_indices.pop(0)
 
         # Drop any indices list already found
-        remaining_indices = [indices for indices in remaining_indices if indices not in indices_found_in_zip]
+        remaining_indices = [index for index in remaining_indices if normalise(index) not in covered]
 
         LOGGER.info(f"{len(remaining_indices)} indices remaining: {remaining_indices}")
 
@@ -198,13 +197,13 @@ def get_zip_files():
         time.sleep(random_sleep)
     
     if download_failures:
-        LOGGER.warning(f"Failed to download index files for: {download_failures}")
+        LOGGER.error(f"Failed to obtain index files for: {download_failures}")
 
-    if not content_mismatch_failures:
+    if not content_mismatch_failures and not download_failures:
         LOGGER.info("All indices were successfully processed")
 
-    else:
-         LOGGER.info(f"The following indices were downloaded, but contents did not match any expected index names: {content_mismatch_failures}")
+    if content_mismatch_failures:
+        LOGGER.error(f"Downloaded, but the contents matched no expected index: {content_mismatch_failures}")
 
     # Exit non-zero so the monthly workflow stops instead of letting data_automation.py
     # re-push the stale company_list CSVs (that is how it stayed green while broken).
