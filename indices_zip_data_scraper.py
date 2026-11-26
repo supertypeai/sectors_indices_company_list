@@ -24,9 +24,7 @@ LOGGER.info("Init Global Variable")
 
 # Setup .env
 load_dotenv(override=True)
-# The workflow exports this secret as `proxy`; accept either spelling so the ladder
-# actually gets a proxy route (direct stays as the fallback either way).
-PROXY = os.getenv('PROXY') or os.getenv('proxy')
+PROXY = os.getenv('PROXY')
 
 
 class ProxyRequester:
