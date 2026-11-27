@@ -2,10 +2,13 @@ name: Update indices company list
 
 on:
   schedule:
-    # Weekly, Mondays 00:00 UTC (07:00 WIB): IDX puts reviews into force on the 1st, 2nd, 4th or
-    # 5th, so a monthly run on the 1st applied them a month late. Reconcile is a no-op when the
-    # listings are unchanged, so extra runs cost a fetch and no commit.
-    - cron: "0 0 * * 1"
+    # Monthly on the 6th, 00:00 UTC (13:00 WIB). IDX reviews (Mayor/Minor) take force on the first
+    # trading day of their review month - Feb/May/Aug/Nov for BEI indices, Jun/Sep/Dec for
+    # JII70/SRI-KEHATI/ECONOMIC30/IDXVESTA28, factor family 2 days later - so the day is the 1st-5th
+    # and a run on the 1st reads the previous period instead. The 6th is the first date guaranteed to
+    # see all of them (<=5 days lag). Incidental reviews (e.g. LQ45 on 2026-11-18) are rare:
+    # dispatch this workflow when one is published.
+    - cron: "0 0 6 * *"
   
   workflow_dispatch:
       
