@@ -9,6 +9,7 @@ Covers the three behaviours that were broken or newly added:
 """
 import glob
 import os
+from datetime import date
 import pathlib
 import shutil
 import tempfile
@@ -18,7 +19,7 @@ import pandas as pd
 
 import data_automation as da
 import indices_zip_data_scraper as scraper
-from idx_announcement import index_field, normalise, read_sheet
+from idx_announcement import index_field, newest_effective, normalise, read_sheet
 
 ZIP_DIR = "../_idx_probe_indices/zips"
 
@@ -177,6 +178,39 @@ finally:
 # 5b. the profile loader must return a DataFrame, not the raw PostgREST response
 assert list(da.load_profile(None).columns) == ["symbol", "company_name"]
 assert da.load_profile(_FakeClient([{"symbol": "A.JK", "company_name": "x"}])).shape == (1, 2)
+
+# 5c. two announcements can share an effective start; the revision (higher number) must win
+
+
+def _sheet(zip_name, needle):
+    with zipfile.ZipFile(f"{ZIP_DIR}/{zip_name}") as archive:
+        member = [n for n in archive.namelist() if needle in n and n.endswith(".xlsx")][0]
+        return read_sheet(archive.read(member))
+
+
+original = _sheet("okt2026_peng00204.zip", "LQ45 - Okt")
+revision = _sheet("revisi_evaluasi_mayor_indeks_lq45_dan_idx80.zip", "LQ45 - Okt")
+assert original["number"] == 204 and revision["number"] == 205, (original["number"], revision["number"])
+assert original["announced"] == date(2026, 10, 26) and revision["announced"] == date(2026, 10, 27)
+# BEI ships a typo in the Q30 header ("No. Peng-00/..."): the announcement date must still decide
+q30 = _sheet("okt2026_peng00207.zip", "IDX Q30")
+assert q30["number"] == 0 and q30["announced"] == date(2026, 10, 28), (q30["number"], q30["announced"])
+broken_tie = newest_effective(
+    [{**original, "number": 0}, {**revision, "number": 0}], date(2026, 11, 2))[0]
+assert broken_tie["announced"] == date(2026, 10, 27), broken_tie["announced"]
+assert original["start"] == revision["start"], "test fixture expects the same effective start"
+effective, _ = newest_effective([original, revision], date(2026, 11, 2))
+assert effective["number"] == 205, f"revision must win, got Peng-{effective['number']:03d}"
+assert "ELSA.JK" in effective["symbols"] and "CUAN.JK" not in effective["symbols"]
+# candidate order must not matter
+assert newest_effective([revision, original], date(2026, 11, 2))[0]["number"] == 205
+
+# 6a. a review published before it takes force must also keep the previous upload
+assert scraper.may_not_be_in_force_yet("2 November 2026-29 Januari 2027 (Evaluasi Minor)", date(2026, 11, 1))
+assert not scraper.may_not_be_in_force_yet("2 November 2026-29 Januari 2027 (Evaluasi Minor)", date(2026, 11, 2))
+# no stated date ("Evaluasi Insidental") means the start is unknown -> keep the previous upload
+assert scraper.may_not_be_in_force_yet(None)
+assert scraper.may_not_be_in_force_yet("Evaluasi Insidental")
 
 # 6. a blocked listing (403 from the JSON endpoint) must fail the run, not skip silently
 original_fetch = scraper.ProxyRequester.fetch_url

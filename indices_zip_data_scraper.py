@@ -1,5 +1,5 @@
 from dotenv import load_dotenv 
-from datetime import datetime
+from datetime import date, datetime
 from urllib.parse import quote
 
 import os 
@@ -10,7 +10,7 @@ import random
 import sys
 import zipfile
 
-from idx_announcement import index_field, normalise
+from idx_announcement import index_field, normalise, parse_date
 from idx_fetch import idx_get
 
 
@@ -26,6 +26,18 @@ LOGGER.info("Init Global Variable")
 # Setup .env
 load_dotenv(override=True)
 PROXY = os.getenv('PROXY')
+
+
+def may_not_be_in_force_yet(description, today=None) -> bool:
+    """True when the newest upload might not be in force on the run date.
+
+    Either the listing states a future effective date (IDX reviews take force on the 1st, 2nd, 4th
+    or 5th, days after publication), or it states no date at all - incidental announcements say
+    only "Evaluasi Insidental", and their real start lives in the sheet. Both cases need the
+    previous upload kept so data_automation has an effective sheet to read.
+    """
+    start = parse_date(description or "")
+    return start is None or start > (today or date.today())
 
 
 class ProxyRequester:
@@ -160,24 +172,41 @@ def get_zip_files():
             remaining_indices.pop(0)
             continue
 
-        # Proceed with download for new file
-        url_to_download = latest_result.get('AttachmentUrl').replace('\\', '/')
-        full_url = base_url + quote(url_to_download, safe='/:?&=')
-        LOGGER.info(f"Downloading file: {full_url}")
+        # Keep the newest upload, plus the previous one when the newest is not in force yet:
+        # without it a run on the 1st sees only a future period and data_automation has nothing
+        # effective to read for that index.
+        uploads = [latest_result]
+        if len(data_results) > 1 and may_not_be_in_force_yet(latest_result.get('Description')):
+            LOGGER.info(f"Newest upload for {current_index} is not effective yet, keeping the previous one")
+            uploads.append(data_results[1])
 
-        success = requester.download_file(full_url, os.path.join(save_dir, original_file_name))
+        covered = set()
+        for upload in uploads:
+            file_name = upload.get('AttachmentName')
+            url_to_download = (upload.get('AttachmentUrl') or '').replace('\\', '/')
 
-        if not success:
-            download_failures.append(current_index)
-            remaining_indices.pop(0)
-            continue 
+            if not file_name or not url_to_download:
+                LOGGER.error(f"Listing entry for {current_index} is missing the attachment")
+                download_failures.append(current_index)
+                continue
 
-        # Coverage is decided by the sheet's own index field, not a substring of the file name:
-        # "IDX LQ45 Low Carbon Leader" contains "LQ45" but is a different index.
-        covered = {
-            index_field(sheet)
-            for sheet in requester.get_unzip_files(save_dir, original_file_name)
-        } - {None}
+            target = os.path.join(save_dir, file_name)
+            if os.path.exists(target):
+                LOGGER.info(f"Already downloaded {file_name}")
+            else:
+                full_url = base_url + quote(url_to_download, safe='/:?&=')
+                LOGGER.info(f"Downloading file: {full_url}")
+                if not requester.download_file(full_url, target):
+                    download_failures.append(current_index)
+                    continue
+
+            # Coverage is decided by the sheet's own index field, not a substring of the file
+            # name: "IDX LQ45 Low Carbon Leader" contains "LQ45" but is a different index.
+            covered |= {
+                index_field(sheet)
+                for sheet in requester.get_unzip_files(save_dir, file_name)
+            } - {None}
+
         indices_found_in_zip = [index for index in remaining_indices if normalise(index) in covered]
         
         LOGGER.info(f"Downloaded zip for '{current_index}'. It covers: {list(indices_found_in_zip)}")

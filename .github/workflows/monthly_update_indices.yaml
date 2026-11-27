@@ -2,7 +2,10 @@ name: Update indices company list
 
 on:
   schedule:
-    - cron: "0 0 1 * *" # at 00:00 (midnight) on the 1st day of every month
+    # Weekly, Mondays 00:00 UTC (07:00 WIB): IDX puts reviews into force on the 1st, 2nd, 4th or
+    # 5th, so a monthly run on the 1st applied them a month late. Reconcile is a no-op when the
+    # listings are unchanged, so extra runs cost a fetch and no commit.
+    - cron: "0 0 * * 1"
   
   workflow_dispatch:
       

@@ -54,6 +54,28 @@ def parse_date(text: str) -> date | None:
     return date(int(year), MONTH_PREFIX[match.group(2)[:3].lower()], int(match.group(1)))
 
 
+# Announcement metadata sits in the first rows of every sheet (rows 1-2 today).
+HEADER_ROWS = 4
+ANNOUNCEMENT_NUMBER = re.compile(r"Peng-(\d+)", re.I)
+ANNOUNCEMENT_DATE = re.compile(r"tanggal\s+(\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4})", re.I)
+
+
+def header_text(meta) -> str:
+    """The announcement header lines as one string."""
+    return " ".join(str(value) for value in meta.iloc[:HEADER_ROWS].to_numpy().ravel() if value == value)
+
+
+def announcement_number(head: str) -> int:
+    """BEI announcement number ("... No. Peng-00205/BEI.POP/10-2026 tanggal ..."), else 0.
+
+    Two announcements can share an effective start date (an original and its revision), so the
+    number is what decides which one wins. BEI typos exist ("Peng-00/..." in the Q30 sheet), which
+    is why the announcement date is carried as a second tie-breaker.
+    """
+    match = ANNOUNCEMENT_NUMBER.search(head)
+    return int(match.group(1)) if match else 0
+
+
 def read_sheet(blob: bytes) -> dict:
     """Constituents and effective period of one announcement xlsx."""
     meta = pd.read_excel(io.BytesIO(blob), header=None)
@@ -68,7 +90,16 @@ def read_sheet(blob: bytes) -> dict:
     frame = frame.dropna(subset=["Rasio Free Float"])
     frame = frame[frame["Kode"].notna()]
     symbols = {f"{str(code).strip()}.JK" for code in frame["Kode"]}
-    return {"symbols": symbols, "start": parse_date(period), "period": period, "evaluasi": evaluasi}
+    head = header_text(meta)
+    stamp = ANNOUNCEMENT_DATE.search(head)
+    return {
+        "symbols": symbols,
+        "start": parse_date(period),
+        "period": period,
+        "evaluasi": evaluasi,
+        "number": announcement_number(head),
+        "announced": parse_date(stamp.group(1)) if stamp else None,
+    }
 
 
 def read_sheet_path(path) -> dict:
@@ -79,8 +110,16 @@ def read_sheet_path(path) -> dict:
 def newest_effective(candidates: list[dict], today: date | None = None) -> tuple[dict | None, dict | None]:
     """(currently effective, next upcoming) announcements from parsed candidates."""
     today = today or date.today()
-    dated = sorted((c for c in candidates if c.get("start")), key=lambda c: c["start"])
+    # Same start date happens (original + revision): the higher announcement number wins.
+    dated = sorted(
+        (c for c in candidates if c.get("start")),
+        key=lambda c: (c["start"], c.get("number") or 0, c.get("announced") or date.min),
+    )
     effective = [c for c in dated if c["start"] <= today]
     later = [c for c in dated if c["start"] > today]
-    current = effective[-1] if effective else next((c for c in candidates if not c.get("start")), None)
+    if effective:
+        current = effective[-1]
+    else:
+        undated = [c for c in candidates if not c.get("start")]
+        current = max(undated, key=lambda c: (c.get("number") or 0, c.get("announced") or date.min)) if undated else None
     return current, (later[0] if later else None)
