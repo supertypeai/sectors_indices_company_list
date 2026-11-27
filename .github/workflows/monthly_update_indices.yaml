@@ -2,13 +2,14 @@ name: Update indices company list
 
 on:
   schedule:
-    # Monthly on the 6th, 00:00 UTC (13:00 WIB). IDX reviews (Mayor/Minor) take force on the first
+    # Monthly on the 10th, 00:00 UTC (07:00 WIB). IDX reviews (Mayor/Minor) take force on the first
     # trading day of their review month - Feb/May/Aug/Nov for BEI indices, Jun/Sep/Dec for
-    # JII70/SRI-KEHATI/ECONOMIC30/IDXVESTA28, factor family 2 days later - so the day is the 1st-5th
-    # and a run on the 1st reads the previous period instead. The 6th is the first date guaranteed to
-    # see all of them (<=5 days lag). Incidental reviews (e.g. LQ45 on 2026-11-18) are rare:
-    # dispatch this workflow when one is published.
-    - cron: "0 0 6 * *"
+    # JII70/SRI-KEHATI/ECONOMIC30/IDXVESTA28, with the factor family 2 days later - so the effective
+    # day is somewhere in the 1st-5th and a run on the 1st reads the previous period instead. The
+    # 10th leaves margin for weekends and Indonesian holidays while still catching every periodic
+    # review (max 9 days lag; 12 runs a year, weekly measured no better for that case).
+    # Incidental reviews (e.g. LQ45 on 2026-11-18) are rare: dispatch this workflow when one lands.
+    - cron: "0 0 10 * *"
   
   workflow_dispatch:
       
